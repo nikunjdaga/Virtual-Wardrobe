@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+
+android:orientation="vertical"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:padding="16dp"
+android:gravity="center">
+
+<LinearLayout
+    android:id="@+id/main_container"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Touch Image to get RGB value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rgbText"/>
+
+    <ImageView
+        android:id="@+id/croppedImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:id="@+id/info_area"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calculation Details"
+        android:id="@+id/calculate_DeltaE_textView"
+         />
+
+</LinearLayout>
+
+<ProgressBar
+    android:visibility="gone"
+    android:layout_gravity="center"
+    android:id="@+id/progress"
+    android:layout_width="100dp"
+    android:layout_height="100dp" />
+
+</LinearLayout>
+</ScrollView>

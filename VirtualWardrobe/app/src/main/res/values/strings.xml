@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Virtual Wardrobe</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_clothes_in_type">ClothesInType</string>
+    <string name="title_activity_gallery_photo">GalleryPhoto</string>
+    <string name="title_activity_camera_photo">CameraPhoto</string>
+    <string name="title_activity_get_cropped_photo">GetCroppedPhoto</string>
+    <string name="title_activity_holly_view_pager">HollyViewPagerActivity</string>
+</resources>

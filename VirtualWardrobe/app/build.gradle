@@ -1,0 +1,34 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.0"
+
+    defaultConfig {
+        applicationId "com.example.nikunj.virtualwardrobe"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:23.0.0'
+    compile 'com.blunderer:materialdesignlibrary:2.0.4'
+    compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
+    compile 'com.github.clans:fab:1.6.0'
+    compile 'com.theartofdev.edmodo:android-image-cropper:1.0.+'
+    compile 'com.github.thiagokimo:alexei-library:1.4'
+    compile 'com.github.florent37:hollyviewpager:1.0.1'
+    compile 'com.github.ksoichiro:android-observablescrollview:1.5.2'
+    compile 'com.android.support:cardview-v7:23.0.0'
+    compile 'com.android.support:recyclerview-v7:23.0.0'
+}
