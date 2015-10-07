@@ -23,10 +23,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ClothesInType"
-            android:label="@string/title_activity_clothes_in_type" >
-        </activity>
-        <activity
             android:name=".GalleryPhoto"
             android:label="@string/title_activity_gallery_photo" >
         </activity>
@@ -38,9 +34,7 @@
             android:name=".GetCroppedPhoto"
             android:label="@string/title_activity_get_cropped_photo" >
         </activity>
-        <activity
-            android:name=".HollyViewPagerActivity"
-            android:label="@string/title_activity_holly_view_pager" >
+        <activity android:name=".PhotosViewPager" >
         </activity>
     </application>
 

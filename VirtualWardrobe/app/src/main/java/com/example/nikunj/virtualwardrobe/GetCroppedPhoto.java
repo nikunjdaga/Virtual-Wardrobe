@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,9 +26,12 @@ import com.kimo.lib.alexei.Answer;
 import com.kimo.lib.alexei.Utils;
 import com.kimo.lib.alexei.calculus.ColorPaletteCalculus;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +65,8 @@ public class GetCroppedPhoto extends FragmentActivity {
 
     private View mainView, progressView;
 
+    private Spinner typeListSpinner,collectionListSpinner;
+
    // public static final String TAG = GetCroppedPhoto.class.getSimpleName();
     private FragmentManager fm = getSupportFragmentManager();;
     public Bitmap bitmapA,resized ;
@@ -76,8 +83,8 @@ public class GetCroppedPhoto extends FragmentActivity {
         croppedImageView = (ImageView) findViewById(R.id.croppedImageView);
         rgbText = (TextView) findViewById(R.id.rgbText);
         DeltaE_textView = (TextView) findViewById(R.id.calculate_DeltaE_textView);
-         bitmapA = null;
-         resized = null;
+        bitmapA = null;
+        resized = null;
 
         try {
             fis = openFileInput("BITMAP_A");
@@ -103,7 +110,6 @@ public class GetCroppedPhoto extends FragmentActivity {
                 // TODO Auto-generated method stub
 
 
-
                 int x = (int) event.getX();
                 int y = (int) event.getY();
                 if (x < resized.getWidth() && y < resized.getHeight() && y >= 0 && x >= 0) {
@@ -118,17 +124,17 @@ public class GetCroppedPhoto extends FragmentActivity {
 
                 }
 
-                int action=event.getActionMasked();
-                if(action==event.ACTION_UP) {
+                int action = event.getActionMasked();
+                if (action == event.ACTION_UP) {
                     Log.e("touch ended yay", "");
 
                     ConvertRGBtoLab convertRGBtoLab = new ConvertRGBtoLab(redValue, greenValue, blueValue);
 
                     lab1 = convertRGBtoLab.conversion();
                     Lab2 = new CIE_LAB();
-                    count=0;
+                    count = 0;
                     DEL_E = Float.MAX_VALUE;
-                    for (int i = 0;i<mAllIDValues.size(); i++) {
+                    for (int i = 0; i < mAllIDValues.size(); i++) {
 
                         Lab2.L = mAllLValues.get(i);
                         Lab2.A = mAllAValues.get(i);
@@ -142,9 +148,9 @@ public class GetCroppedPhoto extends FragmentActivity {
 
                         TEMP_DEL_E = deltaECalculator.CIEDeltaE2000();
 
-                            Log.e("finished",""+count++);
+                        Log.e("finished", "" + count++);
 
-                        if(DEL_E  > TEMP_DEL_E || DEL_E == 0){
+                        if (DEL_E > TEMP_DEL_E || DEL_E == 0) {
                             DEL_E = TEMP_DEL_E;
                             MAIN_R = TEMP_RED;
                             MAIN_G = TEMP_GREEN;
@@ -163,10 +169,12 @@ public class GetCroppedPhoto extends FragmentActivity {
         });
         configure();
 
-
-
-
     }
+
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -239,7 +247,7 @@ public class GetCroppedPhoto extends FragmentActivity {
 
         Alexei.with(GetCroppedPhoto.this)
                 .analyze(croppedImageView)
-                .perform(new ColorPaletteCalculus(resized,5))
+                .perform(new ColorPaletteCalculus(resized,10))
                 .showMe(new Answer<List<Integer>>() {
                     @Override
                     public void beforeExecution() {

@@ -53,7 +53,11 @@ public class DBOpenHelper  extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
-        // TODO Auto-generated method stu
+    public void onUpgrade(SQLiteDatabase db,  int oldVersion, int newVersion) {
+        // TODO Auto-generated method stub
+        // on upgrade drop older tables
+        db.execSQL("DROP TABLE IF EXISTS " + COLOR_DATA_TABLE_NAME);
+        // create new tables
+        onCreate(db);
     }
 }

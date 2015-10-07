@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:fab="http://schemas.android.com/apk/res-auto">
     <GridView
-        android:id="@+id/gridview1"
+        android:id="@+id/typeGridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:verticalSpacing="0dp"
@@ -30,7 +30,7 @@
         fab:menu_fab_label="Close">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab1"
+            android:id="@+id/cameraPhotoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_action_new"
@@ -38,7 +38,7 @@
             fab:fab_label="Take Photo From Camera" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab2"
+            android:id="@+id/galleryPhotoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_action_new"
@@ -46,7 +46,7 @@
             fab:fab_label="Take Photo From Gallery" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab3"
+            android:id="@+id/addTypeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_action_new"

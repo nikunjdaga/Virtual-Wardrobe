@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -113,12 +115,13 @@ public class GalleryPhoto extends AppCompatActivity {
 //                ImageView croppedImageView = (ImageView) findViewById(R.id.croppedImageView);
 //                croppedImageView.setImageBitmap(croppedImage);
 
-
+                new CreateDirectoryAndSaveFile(croppedImage);
                 FileOutputStream fos;
 
                 try {
                     fos = openFileOutput("BITMAP_A", Context.MODE_PRIVATE);
-                    croppedImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    croppedImage.compress(Bitmap.CompressFormat.JPEG, 50, fos);
+                    fos.flush();
                     fos.close();
 
 

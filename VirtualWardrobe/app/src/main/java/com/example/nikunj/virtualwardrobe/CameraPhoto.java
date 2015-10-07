@@ -122,12 +122,13 @@ public class CameraPhoto extends AppCompatActivity {
 //                ImageView croppedImageView = (ImageView) findViewById(R.id.croppedImageView);
 //                croppedImageView.setImageBitmap(croppedImage);
 
-
+                new CreateDirectoryAndSaveFile(croppedImage);
                 FileOutputStream fos;
 
                 try {
                     fos = openFileOutput("BITMAP_A", Context.MODE_PRIVATE);
-                    croppedImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    croppedImage.compress(Bitmap.CompressFormat.JPEG, 50, fos);
+
                     fos.close();
 
 
