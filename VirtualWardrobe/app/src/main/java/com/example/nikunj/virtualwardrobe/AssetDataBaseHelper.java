@@ -4,8 +4,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.nikunj.virtualwardrobe.CopyDatabaseFromAssetFolder;
+
 /**
- * Created by root on 24/9/15.
+ * Created by nikunj on 24/9/15.
  */
 public class AssetDataBaseHelper extends SQLiteOpenHelper{
 

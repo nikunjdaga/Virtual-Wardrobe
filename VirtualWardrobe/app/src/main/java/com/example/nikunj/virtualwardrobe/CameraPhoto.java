@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -122,7 +121,7 @@ public class CameraPhoto extends AppCompatActivity {
 //                ImageView croppedImageView = (ImageView) findViewById(R.id.croppedImageView);
 //                croppedImageView.setImageBitmap(croppedImage);
 
-                new CreateDirectoryAndSaveFile(croppedImage);
+                new CreateDirectoryAndSavePhoto(croppedImage);
                 FileOutputStream fos;
 
                 try {

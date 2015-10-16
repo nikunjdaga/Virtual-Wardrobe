@@ -36,15 +36,15 @@ public class CollectionsFragmentAdapter extends BaseAdapter
 //        items.add(new CollectionsList("Image 4", R.drawable.nature3));
 //        items.add(new CollectionsList("Image 5", R.drawable.tree2));
         db = new SavePhotoDBOpenHelper(myContext);
-        db.addCollectionListItem(new CollectionsList("Image 1", R.drawable.nature1));
-        db.addCollectionListItem(new CollectionsList("Image 2",R.drawable.nature2));
-        db.addCollectionListItem(new CollectionsList("Image 3",R.drawable.nature3));
-        db.addCollectionListItem(new CollectionsList("Image 4",R.drawable.tree1));
-        db.addCollectionListItem(new CollectionsList("Image 5",R.drawable.tree2));
-        db.addCollectionListItem(new CollectionsList("Image 6", R.drawable.nature2));
+        //db.addCollectionListItem(myContext,new CollectionsList("Image 1", R.drawable.nature1));
+        //db.addCollectionListItem(myContext,new CollectionsList("Image 2",R.drawable.nature2));
+        //db.addCollectionListItem(myContext,new CollectionsList("Image 3",R.drawable.nature3));
+        //db.addCollectionListItem(myContext,new CollectionsList("Image 4",R.drawable.tree1));
+        //db.addCollectionListItem(myContext,new CollectionsList("Image 5",R.drawable.tree2));
+        //db.addCollectionListItem(myContext,new CollectionsList("Image 6", R.drawable.nature2));
 
 
-        items = db.getAllCollectionListItem();
+        items = db.getAllCollectionListItem(myContext);
 
 //        for (CollectionsList collectionlistsitems : items) {
 //            items.add(new CollectionsList(collectionlistsitems.getCollectionsName(),collectionlistsitems.getCollectionListItemDrawableId()));

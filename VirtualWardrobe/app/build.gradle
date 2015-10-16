@@ -25,6 +25,6 @@ dependencies {
     compile 'com.blunderer:materialdesignlibrary:2.0.4'
     compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
     compile 'com.github.clans:fab:1.6.0'
-    compile 'com.theartofdev.edmodo:android-image-cropper:1.0.+'
+    compile 'com.theartofdev.edmodo:android-image-cropper:1.0.4'
     compile 'com.github.thiagokimo:alexei-library:1.4'
 }

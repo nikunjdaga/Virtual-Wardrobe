@@ -5,8 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
@@ -15,25 +13,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kimo.lib.alexei.Alexei;
 import com.kimo.lib.alexei.Answer;
-import com.kimo.lib.alexei.Utils;
 import com.kimo.lib.alexei.calculus.ColorPaletteCalculus;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
+
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class GetCroppedPhoto extends FragmentActivity {
 
@@ -49,11 +49,10 @@ public class GetCroppedPhoto extends FragmentActivity {
     ArrayList<Integer> mAllBlueValues = new ArrayList<Integer>();
     ArrayList<Integer> mAllIDValues = new ArrayList<Integer>();
 
-
     public CIE_LAB lab1, Lab2;
     float DEL_E = 0.0f;
     float TEMP_DEL_E = 0.0f;
-    float TEMP_RED, TEMP_GREEN, TEMP_BLUE, MAIN_R, MAIN_G, MAIN_B;
+    float TEMP_RED, TEMP_GREEN, TEMP_BLUE, MAIN_R, MAIN_G, MAIN_B,MAIN_L_VALUE,MAIN_A_VALUE,MAIN_B_VALUE;
     //    final String TABLE_USER_DETAILS = "tb_colordata";
     TextView DeltaE_textView;
 
@@ -67,14 +66,38 @@ public class GetCroppedPhoto extends FragmentActivity {
 
     private Spinner typeListSpinner,collectionListSpinner;
 
+    private Switch isFavourite;
+
+    private EditText description;
+
+
+
+    private Button savePhoto;
+
+    private String descriptionText, photoLocationPath;
+
+    public Integer isFavouriteInteger = 0;
+
+    SavePhotoDBOpenHelper savePhotoDB;
+
+    private ArrayList<String> typeAllListItems = new ArrayList<String>();
+    private ArrayList<String> collectionAllListItems = new ArrayList<String>();
+
+    ArrayList<Integer> collectionListNamesId = new ArrayList<>();
+    ArrayList<Integer> typesListNamesId = new ArrayList<>();
+
+    Integer mainBracketNameId;
+
    // public static final String TAG = GetCroppedPhoto.class.getSimpleName();
     private FragmentManager fm = getSupportFragmentManager();;
     public Bitmap bitmapA,resized ;
     public TextView rgbText;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        savePhotoDB = new SavePhotoDBOpenHelper(this);
         getLAB();
 
         setContentView(R.layout.activity_get_cropped_photo);
@@ -120,13 +143,13 @@ public class GetCroppedPhoto extends FragmentActivity {
 
                     rgbText.setText("R:" + redValue + " G:" + greenValue + " B:" + blueValue);
 
-                    Log.v("RGB", pixel + " :R: " + redValue + " G: " + greenValue + " B:" + blueValue);
+                    //Log.v("RGB", pixel + " :R: " + redValue + " G: " + greenValue + " B:" + blueValue);
 
                 }
 
                 int action = event.getActionMasked();
                 if (action == event.ACTION_UP) {
-                    Log.e("touch ended yay", "");
+                   // Log.e("touch ended yay", "");
 
                     ConvertRGBtoLab convertRGBtoLab = new ConvertRGBtoLab(redValue, greenValue, blueValue);
 
@@ -148,7 +171,7 @@ public class GetCroppedPhoto extends FragmentActivity {
 
                         TEMP_DEL_E = deltaECalculator.CIEDeltaE2000();
 
-                        Log.e("finished", "" + count++);
+                        //Log.e("finished", "" + count++);
 
                         if (DEL_E > TEMP_DEL_E || DEL_E == 0) {
                             DEL_E = TEMP_DEL_E;
@@ -156,46 +179,144 @@ public class GetCroppedPhoto extends FragmentActivity {
                             MAIN_G = TEMP_GREEN;
                             MAIN_B = TEMP_BLUE;
                             MAIN_NAME = NAME;
+                            MAIN_L_VALUE = Lab2.L;
+                            MAIN_A_VALUE = Lab2.A;
+                            MAIN_B_VALUE = Lab2.B;
                         }
 
 
                     }
                     DeltaE_textView.setText("DELTA E is = " + DEL_E + " R : " + MAIN_R + " G : " + MAIN_G + " B :" + MAIN_B + MAIN_NAME);
 
+
                 }
                 return true;
             }
 
         });
+
+
         configure();
 
-    }
 
 
+        typeListSpinner = (Spinner) findViewById(R.id.typeListSpinner);
+
+        //Array List for spinner type
+        ArrayAdapter<String> typeListDataAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, getTypeAllListItemNames(savePhotoDB.getAllTypeListItem(getApplicationContext())));
+        typeListDataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeListSpinner.setAdapter(typeListDataAdapter);
+
+        collectionListSpinner = (Spinner) findViewById(R.id.collectionListSpinner);
+
+        //Array List for spinner collection
+        ArrayAdapter<String> collectionsListArrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, getCollectionAllListItemNames(savePhotoDB.getAllCollectionListItem(getApplicationContext())));
+        collectionsListArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        collectionListSpinner.setAdapter(collectionsListArrayAdapter);
 
 
+        isFavourite = (Switch) findViewById(R.id.favouriteSwitch);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_get_cropped_photo, menu);
-        return true;
-    }
+        //set the switch to OFF
+        isFavourite.setChecked(false);
+        //attach a listener to check for changes in state
+        isFavourite.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+                if(isChecked){
+
+                    isFavouriteInteger = 1;
+
+                }else{
+                    isFavouriteInteger = 0;
+                }
+
+            }
+        });
+
+        //check the current state before we display the screen
+        if(isFavourite.isChecked()){
+            isFavouriteInteger = 1;
+        }
+        else {
+            isFavouriteInteger = 0;
         }
 
-        return super.onOptionsItemSelected(item);
+
+         final String  photoCreatedDate = new CreateDirectoryAndSavePhoto().getPhotoCreateDate();
+         final Integer photoCreatedDateInteger = Integer.parseInt(photoCreatedDate);
+        //Log.e("Photo Created Date ",photoCreatedDate);
+
+        photoLocationPath = new CreateDirectoryAndSavePhoto().getLocationPath();
+
+        description = (EditText) findViewById(R.id.descriptionEdittext);
+
+        descriptionText = description.getText().toString();
+
+        savePhoto = (Button) findViewById(R.id.savePhoto);
+
+        savePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+//                String typeListSpinnerString = String.valueOf(typeListSpinner.getSelectedItem());
+//                String collectionListSpinnerString = String.valueOf(collectionListSpinner.getSelectedItem());
+                Integer typeListSpinnerInteger = typesListNamesId.get(typeListSpinner.getSelectedItemPosition());
+                Integer collectionListSpinnerInteger = collectionListNamesId.get(collectionListSpinner.getSelectedItemPosition());
+                Integer mainNameId = getMainBracketNameId();
+                //Log.e("typeListItem",typeListSpinnerString);
+
+
+                savePhotoDB.addPhotoItem(getApplicationContext() , new SavedPhotoUtil(descriptionText, isFavouriteInteger,
+                                                    photoCreatedDateInteger, photoLocationPath,MAIN_NAME,
+                        typeListSpinnerInteger, collectionListSpinnerInteger, mainNameId));
+                Toast.makeText(GetCroppedPhoto.this, "Photo Added", Toast.LENGTH_SHORT).show();
+
+                finish();
+            }
+        });
+
+
+
+        savePhotoDB.close();
     }
+
+
+    public ArrayList<String> getTypeAllListItemNames(List<TypeList> typeListItems){
+
+        ArrayList<String> typeListNames = new ArrayList<>();
+
+        for (int i = 0; i < typeListItems.size(); i++) {
+            typeListNames.add(typeListItems.get(i).getTypeName());
+            typesListNamesId.add(typeListItems.get(i).getTypeListItemId());
+            //add(typeListItems.get(i).getTypeName());
+           // Log.e("Type List Names added",typeListNames.get(i));
+        }
+
+        return typeListNames;
+
+    }
+
+    public ArrayList<String> getCollectionAllListItemNames(List<CollectionsList> collectionListItems){
+
+        ArrayList<String> collectionListNames = new ArrayList<>();
+
+        for (int i = 0; i < collectionListItems.size(); i++) {
+            collectionListNames.add(collectionListItems.get(i).getCollectionsName());
+            collectionListNamesId.add(collectionListItems.get(i).getCollectionListItemId());
+        }
+
+        return collectionListNames;
+
+    }
+
+
+
 
 
     public void getLAB(){
@@ -238,6 +359,40 @@ public class GetCroppedPhoto extends FragmentActivity {
 
     }
 
+    private Integer getMainBracketNameId(){
+
+        Integer listSize = savePhotoDB.getColorMainListCount(this);
+
+        CIE_LAB MainL1 = new CIE_LAB();
+        CIE_LAB MainL2 = new CIE_LAB();
+
+        MainL1.L = MAIN_L_VALUE;
+        MainL1.A = MAIN_A_VALUE;
+        MainL1.B = MAIN_B_VALUE;
+
+        Float TEMP_DEL_E_MAIN = Float.MAX_VALUE;
+        Float DEL_E_MAIN;
+
+        for (Integer k = 0; k < listSize; k++){
+            MainL2.L = savePhotoDB.getColorListItem(this,k).getColorMainLvalue();
+            MainL2.A = savePhotoDB.getColorListItem(this,k).getColorMainAvalue();
+            MainL2.B = savePhotoDB.getColorListItem(this,k).getColorMainBvalue();
+
+            DeltaECalculator deltaECalculatorMain = new DeltaECalculator(MainL1, MainL2);
+            Log.e("for loop chala",k + "");
+
+            DEL_E_MAIN = deltaECalculatorMain.CIEDeltaE2000();
+
+            if(DEL_E_MAIN < TEMP_DEL_E_MAIN) {
+                Log.e("if loop chala"," main name set");
+                TEMP_DEL_E_MAIN = DEL_E_MAIN;
+                mainBracketNameId = savePhotoDB.getColorListItem(this, k).getColorMainListItemId();
+            }
+
+        }
+        return mainBracketNameId;
+    }
+
     private void configure() {
         mainView = findViewById(R.id.main_container);
         progressView = findViewById(R.id.progress);
@@ -261,7 +416,8 @@ public class GetCroppedPhoto extends FragmentActivity {
                         try {
                             fm.beginTransaction().replace(R.id.info_area, ColorPaletteResultsFragment.newInstance((java.util.ArrayList<Integer>) answer, elapsedTime)).commit();
 
-                        } catch (NullPointerException e){}
+                        } catch (NullPointerException e) {
+                        }
 
                         mainView.setVisibility(View.VISIBLE);
                         progressView.setVisibility(View.GONE);
@@ -275,5 +431,29 @@ public class GetCroppedPhoto extends FragmentActivity {
                         Toast.makeText(GetCroppedPhoto.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_get_cropped_photo, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

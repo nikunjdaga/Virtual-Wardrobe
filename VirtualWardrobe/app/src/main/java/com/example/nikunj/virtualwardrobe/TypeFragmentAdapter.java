@@ -3,6 +3,7 @@ package com.example.nikunj.virtualwardrobe;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by root on 3/10/15.
+ * Created by nikunj on 3/10/15.
  */
 
 
@@ -37,15 +38,21 @@ public class TypeFragmentAdapter extends BaseAdapter
 //        items.add(new Item("Image 5", R.drawable.tree2));
 
         db = new SavePhotoDBOpenHelper(myContext);
-        db.addTypeListItem(new TypeList("Image 1", R.drawable.nature1));
-        db.addTypeListItem(new TypeList("Image 2", R.drawable.nature2));
-        db.addTypeListItem(new TypeList("Image 3", R.drawable.nature3));
-        db.addTypeListItem(new TypeList("Image 4", R.drawable.tree1));
-        db.addTypeListItem(new TypeList("Image 5", R.drawable.tree2));
-        db.addTypeListItem(new TypeList("Image 6", R.drawable.nature2));
+        //db.addTypeListItem(myContext,new TypeList("Image 1", R.drawable.nature1));
+        //db.addTypeListItem(myContext,new TypeList("Image 2", R.drawable.nature2));
+        //db.addTypeListItem(myContext,new TypeList("Image 3", R.drawable.nature3));
+        //db.addTypeListItem(myContext,new TypeList("Image 4", R.drawable.tree1));
+        //db.addTypeListItem(myContext,new TypeList("Image 5", R.drawable.tree2));
+        //db.addTypeListItem(myContext,new TypeList("Image 6", R.drawable.nature2));
+//        Log.e("ImageIntId", R.drawable.nature1 + "");
+//        Log.e("ImageIntId",R.drawable.nature2 + "");
+//        Log.e("ImageIntId",R.drawable.nature3 + "");
+//        Log.e("ImageIntId",R.drawable.tree1 + "");
+//        Log.e("ImageIntId",R.drawable.tree2 + "");
 
 
-        items = db.getAllTypeListItem();
+
+        items = db.getAllTypeListItem(myContext);
 
 //        for (CollectionsList collectionlistsitems : items) {
 //            items.add(new CollectionsList(collectionlistsitems.getCollectionsName(),collectionlistsitems.getCollectionListItemDrawableId()));

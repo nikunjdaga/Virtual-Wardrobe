@@ -175,7 +175,7 @@ public class TypeFragment extends Fragment
                                     final String typeItemName = setTypeName.getText().toString();
 
                                     if (typeItemName != "") {
-                                        db.addCollectionListItem(new CollectionsList(typeItemName,R.drawable.nature1));
+                                        db.addTypeListItem(getActivity(),new TypeList(typeItemName, R.drawable.nature1));
 
                                     } else {
                                         dialog.dismiss();

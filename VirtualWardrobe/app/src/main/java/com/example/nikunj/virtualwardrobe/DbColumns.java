@@ -3,7 +3,7 @@ package com.example.nikunj.virtualwardrobe;
 import android.provider.BaseColumns;
 
 /**
- * Created by root on 24/9/15.
+ * Created by nikunj on 24/9/15.
  */
 public class DbColumns implements BaseColumns {
 

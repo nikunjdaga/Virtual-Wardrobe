@@ -121,7 +121,7 @@ public class CollectionsFragment extends Fragment
                                 final String collectionItemName = setCollectionName.getText().toString();
 
                                 if (collectionItemName != "") {
-                                    db.addCollectionListItem(new CollectionsList(collectionItemName,R.drawable.nature1));
+                                    db.addCollectionListItem(getActivity(),new CollectionsList(collectionItemName,R.drawable.nature1));
 
                                 } else {
                                     dialog.dismiss();

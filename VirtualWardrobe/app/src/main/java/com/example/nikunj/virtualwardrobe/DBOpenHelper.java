@@ -1,7 +1,7 @@
 package com.example.nikunj.virtualwardrobe;
 
 /**
- * Created by root on 24/9/15.
+ * Created by nikunj on 24/9/15.
  */
 
 import android.content.Context;
