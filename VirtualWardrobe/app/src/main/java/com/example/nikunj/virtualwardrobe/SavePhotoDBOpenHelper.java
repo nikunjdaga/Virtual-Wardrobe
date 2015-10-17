@@ -38,7 +38,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 //            `_id`	INTEGER,
 //            `_description`	TEXT,
 //            `_is_favourite`	INTEGER,
-//            `_created_at`	INTEGER,
+//            `_created_at`	REAL,
 //            `_location_path`	BLOB NOT NULL,
 //            `_color_selected`	TEXT NOT NULL,
 //            `_type_name_id`	INTEGER,
@@ -53,7 +53,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
             + " (" + SavedPhotoColumns.ID_VALUE + " INTEGER PRIMARY KEY,"
             + SavedPhotoColumns.DESCRIPTION + " TEXT,"
             + SavedPhotoColumns.IS_FAVOURITE + " INTEGER,"
-            + SavedPhotoColumns.CREATED_AT + " INTEGER,"
+            + SavedPhotoColumns.CREATED_AT + " REAL,"
             + SavedPhotoColumns.LOCATION_PATH + " BLOB NOT NULL,"
             + SavedPhotoColumns.COLOR_SELECTED + " TEXT NOT NULL,"
             + SavedPhotoColumns.TYPE_NAME_TABLE_ID + " INTEGER,"
@@ -244,10 +244,11 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
+        Integer x = cursor.getCount();
         cursor.close();
 
         // return count
-        return cursor.getCount();
+        return x;
     }
 
     /**
@@ -342,10 +343,11 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
+        Integer x = cursor.getCount();
         cursor.close();
 
         // return count
-        return cursor.getCount();
+        return x;
     }
 
     /**
@@ -376,31 +378,33 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 
     // Getting single photo item with collection name
     SavedPhotoUtil getPhotoItem(Context context, int id) {
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper = new AssetDBHelperSavePhotoManager(context);
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
-
+        SavedPhotoUtil savedPhotoUtil = null;
         Cursor cursor = db.query(TABLE_SAVED_PHOTO_UTIL, new String[]{SavedPhotoColumns.ID_VALUE,
                         SavedPhotoColumns.DESCRIPTION, SavedPhotoColumns.IS_FAVOURITE,
                         SavedPhotoColumns.CREATED_AT, SavedPhotoColumns.LOCATION_PATH,
                         SavedPhotoColumns.COLOR_SELECTED, SavedPhotoColumns.TYPE_NAME_TABLE_ID,
-                        SavedPhotoColumns.COLLECTIONS_NAME_TABLE_ID,SavedPhotoColumns.COLOR_MAIN_BRACKET_TABLE_ID
-                        }, SavedPhotoColumns.ID_VALUE + "=?",
+                        SavedPhotoColumns.COLLECTIONS_NAME_TABLE_ID, SavedPhotoColumns.COLOR_MAIN_BRACKET_TABLE_ID
+                }, SavedPhotoColumns.ID_VALUE + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
+        if (cursor != null){
+            if (cursor.moveToNext()) {
 
-        SavedPhotoUtil savedPhotoUtil = new SavedPhotoUtil(Integer.parseInt(cursor.getString(0)),
-                                                           cursor.getString(1),Integer.parseInt(cursor.getString(2)),
-                                                           Integer.parseInt(cursor.getString(3)),cursor.getString(4),
-                                                           cursor.getString(5),Integer.parseInt(cursor.getString(6)),
-                                                           Integer.parseInt(cursor.getString(7)),Integer.parseInt(cursor.getString(8)));
+                 savedPhotoUtil = new SavedPhotoUtil(Integer.parseInt(cursor.getString(0)),
+                        cursor.getString(1), Integer.parseInt(cursor.getString(2)),
+                        Float.parseFloat(cursor.getString(3)), cursor.getString(4),
+                        cursor.getString(5), Integer.parseInt(cursor.getString(6)),
+                        Integer.parseInt(cursor.getString(7)), Integer.parseInt(cursor.getString(8)));
+            }
 
-        cursor.close();
-        // return type list item
+             cursor.close();
+         }
+        // return saved photo list item
         return savedPhotoUtil;
     }
 
-    // Getting All Collection list item Name
+    // Getting All Saved photo list item Name
     public List<SavedPhotoUtil> getAllPhotoItem(Context context) {
         List<SavedPhotoUtil> savedPhotoItemsList = new ArrayList<>();
         // Select All Query
@@ -416,7 +420,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
                   savedPhotoUtilItem.setPhotoId(Integer.parseInt(cursor.getString(0)));
                   savedPhotoUtilItem.setDescription(cursor.getString(1));
                   savedPhotoUtilItem.setIsFavourite(Integer.parseInt(cursor.getString(2)));
-                  savedPhotoUtilItem.setCreatedAt(Integer.parseInt(cursor.getString(3)));
+                  savedPhotoUtilItem.setCreatedAt(Float.parseFloat(cursor.getString(3)));
                   savedPhotoUtilItem.setLocationPath(cursor.getString(4));
                   savedPhotoUtilItem.setColorSelected(cursor.getString(5));
                   savedPhotoUtilItem.setTypeIdFromTable(Integer.parseInt(cursor.getString(6)));
@@ -425,13 +429,13 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 
 
 
-                // Adding contact to list
+                // Adding saved photo item to list
                 savedPhotoItemsList.add(savedPhotoUtilItem);
 
             } while (cursor.moveToNext());
         }
             cursor.close();
-        // return type list
+        // return saved photo item list
         return savedPhotoItemsList;
     }
 
@@ -448,7 +452,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         values.put(SavedPhotoColumns.COLOR_SELECTED,savedPhotoUtil.getColorSelected());
         values.put(SavedPhotoColumns.TYPE_NAME_TABLE_ID,savedPhotoUtil.getTypeIdFromTable());
         values.put(SavedPhotoColumns.COLLECTIONS_NAME_TABLE_ID, savedPhotoUtil.getCollectionIdFromTable());
-        values.put(SavedPhotoColumns.COLOR_MAIN_BRACKET_TABLE_ID,savedPhotoUtil.getColorMainBracketIdFromTable());
+        values.put(SavedPhotoColumns.COLOR_MAIN_BRACKET_TABLE_ID, savedPhotoUtil.getColorMainBracketIdFromTable());
         // updating row
         return db.update(TABLE_SAVED_PHOTO_UTIL, values, SavedPhotoColumns.ID_VALUE + " = ?",
                 new String[] { String.valueOf(savedPhotoUtil.getPhotoId()) });
@@ -469,10 +473,11 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
+        Integer x = cursor.getCount();
         cursor.close();
 
         // return count
-        return cursor.getCount();
+        return x;
     }
 
 
@@ -481,26 +486,27 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
      */
 
     // Getting single color main item
-    ColorMainList getColorListItem(Context context, int id) {
+    ColorMainList getColorMainListItem(Context context, int id) {
         AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
-
+        ColorMainList colorMainListItems = null;
         Cursor cursor = db.query(TABLE_COLOR_MAIN, new String[]{ColorColumns.ID_MAIN_VALUE,
                         ColorColumns.NAME_MAIN_VALUE, ColorColumns.DRAWABLE_ID_MAIN_VALUE,
                         ColorColumns.RED_MAIN_VALUE, ColorColumns.GREEN_MAIN_VALUE,
                         ColorColumns.BLUE_MAIN_VALUE, ColorColumns.L_MAIN_VALUE,
-                        ColorColumns.A_MAIN_VALUE, ColorColumns.B_MAIN_VALUE }, CollectionsColumns.ID_VALUE + "=?",
+                        ColorColumns.A_MAIN_VALUE, ColorColumns.B_MAIN_VALUE}, CollectionsColumns.ID_VALUE + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
+        if (cursor != null) {
+            if(cursor.moveToFirst()) {
 
-        ColorMainList colorMainListItems = new ColorMainList(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1),Integer.parseInt(cursor.getString(2)),
-                Integer.parseInt(cursor.getString(3)),Integer.parseInt(cursor.getString(4)),
-                Integer.parseInt(cursor.getString(5)),Float.parseFloat(cursor.getString(6)),
-                Float.parseFloat(cursor.getString(7)),Float.parseFloat(cursor.getString(8)));
-
-        cursor.close();
+                 colorMainListItems = new ColorMainList(Integer.parseInt(cursor.getString(0)),
+                        cursor.getString(1), Integer.parseInt(cursor.getString(2)),
+                        Integer.parseInt(cursor.getString(3)), Integer.parseInt(cursor.getString(4)),
+                        Integer.parseInt(cursor.getString(5)), Float.parseFloat(cursor.getString(6)),
+                        Float.parseFloat(cursor.getString(7)), Float.parseFloat(cursor.getString(8)));
+            }
+            cursor.close();
+        }
         // return color list item
         return colorMainListItems;
     }
@@ -544,10 +550,11 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
+        Integer x = cursor.getCount();
         cursor.close();
 
         // return count
-        return cursor.getCount();
+        return x;
     }
 
 

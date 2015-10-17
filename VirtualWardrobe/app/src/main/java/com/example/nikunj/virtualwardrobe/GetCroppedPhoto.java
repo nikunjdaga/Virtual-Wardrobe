@@ -248,8 +248,9 @@ public class GetCroppedPhoto extends FragmentActivity {
         }
 
 
+
          final String  photoCreatedDate = new CreateDirectoryAndSavePhoto().getPhotoCreateDate();
-         final Integer photoCreatedDateInteger = Integer.parseInt(photoCreatedDate);
+         final Float photoCreatedDateInteger = Float.parseFloat(photoCreatedDate);
         //Log.e("Photo Created Date ",photoCreatedDate);
 
         photoLocationPath = new CreateDirectoryAndSavePhoto().getLocationPath();
@@ -268,9 +269,9 @@ public class GetCroppedPhoto extends FragmentActivity {
 //                String collectionListSpinnerString = String.valueOf(collectionListSpinner.getSelectedItem());
                 Integer typeListSpinnerInteger = typesListNamesId.get(typeListSpinner.getSelectedItemPosition());
                 Integer collectionListSpinnerInteger = collectionListNamesId.get(collectionListSpinner.getSelectedItemPosition());
-                Integer mainNameId = getMainBracketNameId();
-                //Log.e("typeListItem",typeListSpinnerString);
 
+                //Log.e("typeListItem",typeListSpinnerString);
+                final Integer mainNameId = getMainBracketNameId();
 
                 savePhotoDB.addPhotoItem(getApplicationContext() , new SavedPhotoUtil(descriptionText, isFavouriteInteger,
                                                     photoCreatedDateInteger, photoLocationPath,MAIN_NAME,
@@ -373,20 +374,22 @@ public class GetCroppedPhoto extends FragmentActivity {
         Float TEMP_DEL_E_MAIN = Float.MAX_VALUE;
         Float DEL_E_MAIN;
 
+        List<ColorMainList> colorMainListDBItems = savePhotoDB.getAllColorMainListItem(getApplicationContext());
+
         for (Integer k = 0; k < listSize; k++){
-            MainL2.L = savePhotoDB.getColorListItem(this,k).getColorMainLvalue();
-            MainL2.A = savePhotoDB.getColorListItem(this,k).getColorMainAvalue();
-            MainL2.B = savePhotoDB.getColorListItem(this,k).getColorMainBvalue();
+
+            MainL2.L = colorMainListDBItems.get(k).getColorMainLvalue();
+            MainL2.A = colorMainListDBItems.get(k).getColorMainAvalue();
+            MainL2.B = colorMainListDBItems.get(k).getColorMainBvalue();
 
             DeltaECalculator deltaECalculatorMain = new DeltaECalculator(MainL1, MainL2);
             Log.e("for loop chala",k + "");
-
             DEL_E_MAIN = deltaECalculatorMain.CIEDeltaE2000();
 
-            if(DEL_E_MAIN < TEMP_DEL_E_MAIN) {
+            if(TEMP_DEL_E_MAIN > DEL_E_MAIN) {
                 Log.e("if loop chala"," main name set");
                 TEMP_DEL_E_MAIN = DEL_E_MAIN;
-                mainBracketNameId = savePhotoDB.getColorListItem(this, k).getColorMainListItemId();
+                mainBracketNameId = colorMainListDBItems.get(k).getColorMainListItemId();
             }
 
         }

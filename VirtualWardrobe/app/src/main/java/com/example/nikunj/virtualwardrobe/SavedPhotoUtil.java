@@ -10,7 +10,7 @@ public class SavedPhotoUtil {
     private Integer id;
     private String description;
     private Integer isFavourite;
-    private Integer created_at;
+    private Float created_at;
     private String locationPath;
     private String colorSelected;
     private Integer typeName;
@@ -26,7 +26,7 @@ public class SavedPhotoUtil {
 
     //constructor without collections name
     public SavedPhotoUtil(String description,Integer isFavourite,
-                          Integer created_at,String locationPath,
+                          Float created_at,String locationPath,
                           String colorSelected, Integer typeName,
                           Integer colorMainBracket) {
         this.description = description;
@@ -42,7 +42,7 @@ public class SavedPhotoUtil {
 
 
     public SavedPhotoUtil( String description,Integer isFavourite,
-                           Integer created_at,String locationPath,
+                           Float created_at,String locationPath,
                            String colorSelected, Integer typeName,
                            Integer collectionName, Integer colorMainBracket ) {
 
@@ -58,7 +58,7 @@ public class SavedPhotoUtil {
     }
 
     public SavedPhotoUtil(Integer id, String description,
-                          Integer isFavourite, Integer created_at,
+                          Integer isFavourite, Float created_at,
                           String locationPath, String colorSelected,
                           Integer typeName, Integer collectionName,
                           Integer colorMainBracket ) {
@@ -100,7 +100,7 @@ public class SavedPhotoUtil {
         this.isFavourite = isFavourite;
     }
 
-    public void setCreatedAt(Integer created_at) {
+    public void setCreatedAt(Float created_at) {
         this.created_at = created_at;
     }
 
@@ -146,7 +146,7 @@ public class SavedPhotoUtil {
         return this.locationPath;
     }
 
-    public Integer getCreatedAt(){
+    public Float getCreatedAt(){
         return this.created_at;
     }
 
