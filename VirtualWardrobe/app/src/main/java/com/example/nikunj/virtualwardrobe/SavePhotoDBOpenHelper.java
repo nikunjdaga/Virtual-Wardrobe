@@ -315,6 +315,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
             } while (cursor.moveToNext());
         }
         cursor.close();
+        db.close();
         // return type list
         return typeList;
     }
@@ -329,8 +330,10 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         values.put(TypeNameColumns.DRAWABLE_ID, typeList.getTypeListItemDrawableId());
 
         // updating row
-        return db.update(TABLE_COLTHES_TYPE, values, TypeNameColumns.ID_VALUE + " = ?",
+        Integer ty =db.update(TABLE_COLTHES_TYPE, values, TypeNameColumns.ID_VALUE + " = ?",
                 new String[] { String.valueOf(typeList.getTypeListItemId()) });
+        db.close();
+        return ty;
     }
 
     // Deleting single type list item

@@ -74,7 +74,7 @@ public class ColorPaletteResultsFragment extends Fragment {
 
             View palleteColor = inflater.inflate(R.layout.item_pallete, paletteContainer, false);
             palleteColor.setBackgroundColor(color);
-            Log.e("color list item", Color.red(color)+" "+ Color.green(color) +" " + Color.blue(color)+"");
+//            Log.e("color list item", Color.red(color)+" "+ Color.green(color) +" " + Color.blue(color)+"");
             paletteContainer.addView(palleteColor);
         }
     }

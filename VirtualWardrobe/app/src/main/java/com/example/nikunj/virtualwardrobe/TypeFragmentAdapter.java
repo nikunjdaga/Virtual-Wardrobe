@@ -88,7 +88,7 @@ public class TypeFragmentAdapter extends BaseAdapter
 
         }
 
-        Log.e("position for item1",positionItemId +"");
+//        Log.e("position for item1",positionItemId +"");
 
         picture = (ImageView)v.getTag(R.id.picture);
         name = (TextView)v.getTag(R.id.text);
@@ -99,7 +99,7 @@ public class TypeFragmentAdapter extends BaseAdapter
 
                 Intent i = new Intent(myContext, PhotosViewPager.class);
                 i.putExtra("position_for_item",positionItemId);
-                Log.e("position for item2",positionItemId +"");
+//                Log.e("position for item2",positionItemId +"");
                 myContext.startActivity(i);
                 Toast.makeText(myContext, "You Clicked at Db position " + positionItemId, Toast.LENGTH_SHORT).show();
 

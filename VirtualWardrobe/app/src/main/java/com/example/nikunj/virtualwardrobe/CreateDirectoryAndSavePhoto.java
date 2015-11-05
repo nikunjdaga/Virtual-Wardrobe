@@ -18,7 +18,7 @@ public class CreateDirectoryAndSavePhoto {
 
         String dateCreated = getPhotoCreateDate();
 
-        String fileName= "image-" + dateCreated +".png";
+        String fileName= "image-" + dateCreated +".jpg";
         File direct = new File(Environment.getExternalStorageDirectory() + "/VirtualWardrobe");
 
         if (!direct.exists()) {
@@ -33,7 +33,7 @@ public class CreateDirectoryAndSavePhoto {
         try {
             FileOutputStream out = new FileOutputStream(file);
             //imageToSave.sameAs();
-            imageToSave.compress(Bitmap.CompressFormat.JPEG, 50, out);
+            imageToSave.compress(Bitmap.CompressFormat.JPEG, 0, out);
             out.flush();
             out.close();
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class CreateDirectoryAndSavePhoto {
 
         String dateCreated = getPhotoCreateDate();
 
-        String fileName= "image-" + dateCreated +".png";
+        String fileName= "image-" + dateCreated +".jpg";
         File direct = new File(Environment.getExternalStorageDirectory() + "/VirtualWardrobe");
 
         if (!direct.exists()) {

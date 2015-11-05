@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -117,16 +118,18 @@ public class GalleryPhoto extends AppCompatActivity {
 
                 try {
                     fos = openFileOutput("BITMAP_A", Context.MODE_PRIVATE);
-                    croppedImage.compress(Bitmap.CompressFormat.JPEG, 50, fos);
+                    croppedImage.compress(Bitmap.CompressFormat.JPEG, 0, fos);
                     fos.flush();
                     fos.close();
 
 
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
+                    Log.e("FileNotFound Exception","here");
                     e.printStackTrace();
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
+                    Log.e("IOException","here");
                     e.printStackTrace();
                 }
 

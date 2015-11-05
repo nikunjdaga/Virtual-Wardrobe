@@ -122,6 +122,8 @@ public class GetCroppedPhoto extends FragmentActivity {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }catch (OutOfMemoryError e) {
+            e.printStackTrace();
         }
 
 
@@ -284,9 +286,9 @@ public class GetCroppedPhoto extends FragmentActivity {
 
 
                 finish();
-//                Intent intent = new Intent(getApplicationContext(), MainViewPager.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), MainViewPager.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
 
 
             }
@@ -301,6 +303,7 @@ public class GetCroppedPhoto extends FragmentActivity {
     public void onDestroy(){
         super.onDestroy();
         savePhotoDB.close();
+        System.gc();
     }
 
 
@@ -374,7 +377,7 @@ public class GetCroppedPhoto extends FragmentActivity {
 
         }
         c.close();
-
+        db.close();
     }
 
     private Integer getMainBracketNameId(){
@@ -410,6 +413,7 @@ public class GetCroppedPhoto extends FragmentActivity {
             }
 
         }
+        savePhotoDB.close();
         return mainBracketNameId;
     }
 
@@ -422,7 +426,7 @@ public class GetCroppedPhoto extends FragmentActivity {
 
         Alexei.with(GetCroppedPhoto.this)
                 .analyze(croppedImageView)
-                .perform(new ColorPaletteCalculus(resized,10))
+                .perform(new ColorPaletteCalculus(resized,5))
                 .showMe(new Answer<List<Integer>>() {
                     @Override
                     public void beforeExecution() {
@@ -435,7 +439,7 @@ public class GetCroppedPhoto extends FragmentActivity {
 
                         try {
                             fm.beginTransaction().replace(R.id.info_area, ColorPaletteResultsFragment.newInstance((java.util.ArrayList<Integer>) answer, elapsedTime)).commit();
-                            Log.e("ColorListInteger",answer + "");
+//                            Log.e("ColorListInteger",answer + "");
 
                         } catch (NullPointerException e) {
                         }
