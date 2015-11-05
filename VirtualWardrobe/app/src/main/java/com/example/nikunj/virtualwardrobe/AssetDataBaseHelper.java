@@ -17,7 +17,19 @@ public class AssetDataBaseHelper extends SQLiteOpenHelper{
          private static final Integer DATABASE_VERSION = 1;
 
           Context context;
-    public AssetDataBaseHelper(Context context) {
+    private static AssetDataBaseHelper sInstance;
+
+    public static synchronized AssetDataBaseHelper getInstance(Context context) {
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (sInstance == null) {
+            sInstance = new AssetDataBaseHelper(context.getApplicationContext());
+        }
+        return sInstance;
+    }
+
+    protected AssetDataBaseHelper(Context context) {
         super(context, DB_NAME, null, DATABASE_VERSION);
 
         this.context = context;

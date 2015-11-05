@@ -46,7 +46,7 @@ public class TypeFragment extends Fragment
                              Bundle savedInstanceState) {
         View gridview_layout = inflater.inflate(R.layout.type_fragment_gridview, container, false);
 
-        db = new SavePhotoDBOpenHelper(getActivity());
+        db = SavePhotoDBOpenHelper.getInstance(getActivity());
         closeMenu = true;
 
         final GridView gridView = (GridView)gridview_layout.findViewById(R.id.typeGridview);

@@ -31,7 +31,7 @@ public class ColorFragmentAdapter extends BaseAdapter
         myContext = context;
         inflater = LayoutInflater.from(context);
 
-        db = new SavePhotoDBOpenHelper(myContext);
+        db = SavePhotoDBOpenHelper.getInstance(myContext);
 
         items = db.getAllColorMainListItem(myContext);
 

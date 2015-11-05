@@ -34,7 +34,7 @@ public class PhotosViewPager extends AActivity {
     ArrayList<Float> mAllCreatedAtText = new ArrayList<>();
     ArrayList<Integer> mAllIDValues = new ArrayList<>();
 
-    SavePhotoDBOpenHelper db;
+    SavePhotoDBOpenHelper savePhotoDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class PhotosViewPager extends AActivity {
         ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mCustomPagerAdapter);
 
-        db.close();
+        savePhotoDB.close();
     }
 
     @Override
@@ -103,7 +103,7 @@ public class PhotosViewPager extends AActivity {
 //    WHERE clothesType._id = 1;
 
     public void getVariousLists(){
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(this);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(this);
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
 //        String columns[] = {SavedPhotoColumns.ID_VALUE,
 //                SavedPhotoColumns.DESCRIPTION,

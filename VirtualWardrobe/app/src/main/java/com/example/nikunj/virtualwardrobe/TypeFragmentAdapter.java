@@ -35,7 +35,7 @@ public class TypeFragmentAdapter extends BaseAdapter
         inflater = LayoutInflater.from(context);
 
 
-        db = new SavePhotoDBOpenHelper(myContext);
+        db = SavePhotoDBOpenHelper.getInstance(myContext);
 
 
 

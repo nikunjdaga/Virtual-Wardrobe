@@ -30,7 +30,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
     private static final String TABLE_COLOR_MAIN = "colorMain";
     private static final String TABLE_SAVED_PHOTO_UTIL = "savedPhoto";
 
-
+    private static SavePhotoDBOpenHelper sInstance;
 
     // Table Create Statements
     // Saved Photo table create statement
@@ -119,8 +119,18 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
             + ColorColumns.B_MAIN_VALUE + " REAL"
             + " );";
 
-    public SavePhotoDBOpenHelper(Context context) {
+    protected SavePhotoDBOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    public static synchronized SavePhotoDBOpenHelper getInstance(Context context) {
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (sInstance == null) {
+            sInstance = new SavePhotoDBOpenHelper(context.getApplicationContext());
+        }
+        return sInstance;
     }
 
     @Override
@@ -136,14 +146,17 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        // on upgrade drop older tables
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SAVED_PHOTO_UTIL);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COLTHES_TYPE);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COLLECTIONS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COLOR_MAIN);
+        if (oldVersion != newVersion) {
+            // Simplest implementation is to drop all old tables and recreate them
+            // on upgrade drop older tables
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_SAVED_PHOTO_UTIL);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_COLTHES_TYPE);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_COLLECTIONS);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_COLOR_MAIN);
 
-        // create new tables
-        onCreate(db);
+            // create new tables
+            onCreate(db);
+        }
     }
 
     public void onOpen(SQLiteDatabase db){
@@ -157,7 +170,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 
     // Adding new collection list item
     void addCollectionListItem(Context context, CollectionsList collectionsList) {
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -172,7 +185,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 
     // Getting single collection item
     CollectionsList getCollectionListItem(Context context, int id) {
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_COLLECTIONS, new String[]{CollectionsColumns.ID_VALUE,
@@ -195,7 +208,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         List<CollectionsList> collectionList = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_COLLECTIONS;
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -218,7 +231,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 
     // Updating single collection list item
     public int updateCollection(Context context, CollectionsList collectionsList) {
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -234,7 +247,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 
     // Deleting single collection list item
     public void deleteCollection(Context context, CollectionsList collectionsList) {
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getWritableDatabase();
         db.delete(TABLE_COLLECTIONS, CollectionsColumns.ID_VALUE + " = ?",
                 new String[]{String.valueOf(collectionsList.getCollectionListItemId())});
@@ -245,7 +258,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
     // Getting collection items Count
     public int getCollectionsCount(Context context) {
         String countQuery = "SELECT  * FROM " + TABLE_COLLECTIONS;
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         Integer x = cursor.getCount();
@@ -261,7 +274,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 
     // Adding new type list item
     void addTypeListItem(Context context, TypeList typeList) {
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -276,7 +289,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 
     // Getting single type item
     TypeList getTypeListItem(Context context, int id) {
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_COLTHES_TYPE, new String[]{TypeNameColumns.ID_VALUE,
@@ -299,7 +312,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         List<TypeList> typeList = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_COLTHES_TYPE;
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -322,7 +335,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 
     // Updating single type list item
     public int updateType(Context context, TypeList typeList) {
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -348,7 +361,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
     // Getting type items Count
     public int getTypeCount(Context context) {
         String countQuery = "SELECT  * FROM " + TABLE_COLTHES_TYPE;
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         Integer x = cursor.getCount();
@@ -366,7 +379,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 
 
     void addPhotoItem(Context context, SavedPhotoUtil savedPhotoUtil) {
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -386,7 +399,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 
     // Getting single photo item with collection name
     SavedPhotoUtil getPhotoItem(Context context, int id) {
-        AssetDBHelperSavePhotoManager assetdbhelper = new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
         SavedPhotoUtil savedPhotoUtil = null;
         Cursor cursor = db.query(TABLE_SAVED_PHOTO_UTIL, new String[]{SavedPhotoColumns.ID_VALUE,
@@ -418,7 +431,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         List<SavedPhotoUtil> savedPhotoItemsList = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_SAVED_PHOTO_UTIL;
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -451,7 +464,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 
     // Updating single photo item
     public int updatePhotoItem(Context context, SavedPhotoUtil savedPhotoUtil) {
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -483,7 +496,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
     // Getting photo items Count
     public int getSavedPhotoItemCount(Context context) {
         String countQuery = "SELECT  * FROM " + TABLE_SAVED_PHOTO_UTIL;
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         Integer x = cursor.getCount();
@@ -500,7 +513,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 
     // Getting single color main item
     ColorMainList getColorMainListItem(Context context, int id) {
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
         ColorMainList colorMainListItems = null;
         Cursor cursor = db.query(TABLE_COLOR_MAIN, new String[]{ColorColumns.ID_MAIN_VALUE,
@@ -530,7 +543,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         List<ColorMainList> colorMainList = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_COLOR_MAIN;
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -562,7 +575,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
     // Getting color main items Count
     public int getColorMainListCount(Context context) {
         String countQuery = "SELECT  * FROM " + TABLE_COLOR_MAIN;
-        AssetDBHelperSavePhotoManager assetdbhelper= new AssetDBHelperSavePhotoManager(context);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         Integer x = cursor.getCount();

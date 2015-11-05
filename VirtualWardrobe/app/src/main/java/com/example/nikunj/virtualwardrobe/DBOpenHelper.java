@@ -10,7 +10,19 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBOpenHelper  extends SQLiteOpenHelper {
 
-    public DBOpenHelper(Context context) {
+    private static DBOpenHelper sInstance;
+
+    public static synchronized DBOpenHelper getInstance(Context context) {
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (sInstance == null) {
+            sInstance = new DBOpenHelper(context.getApplicationContext());
+        }
+        return sInstance;
+    }
+
+    protected DBOpenHelper(Context context) {
         super(context, DATABASE, null, VERSION);
         // TODO Auto-generated constructor stub
     }
@@ -55,9 +67,12 @@ public class DBOpenHelper  extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db,  int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
-        // on upgrade drop older tables
-        db.execSQL("DROP TABLE IF EXISTS " + COLOR_DATA_TABLE_NAME);
-        // create new tables
-        onCreate(db);
+        if (oldVersion != newVersion) {
+            // Simplest implementation is to drop all old tables and recreate them
+            // on upgrade drop older tables
+            db.execSQL("DROP TABLE IF EXISTS " + COLOR_DATA_TABLE_NAME);
+            // create new tables
+            onCreate(db);
+        }
     }
 }

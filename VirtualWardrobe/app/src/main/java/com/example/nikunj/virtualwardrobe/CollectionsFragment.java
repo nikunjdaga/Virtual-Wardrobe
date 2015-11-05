@@ -39,7 +39,7 @@ public class CollectionsFragment extends Fragment
 
         View gridview_layout = inflater.inflate(R.layout.collections_fragment_gridview, container, false);
 
-         db = new SavePhotoDBOpenHelper(getActivity());
+         db =  SavePhotoDBOpenHelper.getInstance(getActivity());
 
         GridView gridView = (GridView)gridview_layout.findViewById(R.id.collectionsGridview);
         gridView.setAdapter(new CollectionsFragmentAdapter(getContext()));

@@ -98,7 +98,7 @@ public class GetCroppedPhoto extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        savePhotoDB = new SavePhotoDBOpenHelper(this);
+        savePhotoDB = SavePhotoDBOpenHelper.getInstance(this);
         getLAB();
 
         setContentView(R.layout.activity_get_cropped_photo);
@@ -122,9 +122,10 @@ public class GetCroppedPhoto extends FragmentActivity {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }catch (OutOfMemoryError e) {
-            e.printStackTrace();
         }
+//        catch (OutOfMemoryError e) {
+//            e.printStackTrace();
+//        }
 
 
         resized = Bitmap.createScaledBitmap(bitmapA, 500, 500, true);
@@ -302,6 +303,7 @@ public class GetCroppedPhoto extends FragmentActivity {
     @Override
     public void onDestroy(){
         super.onDestroy();
+        bitmapA.recycle();
         savePhotoDB.close();
         System.gc();
     }
@@ -341,7 +343,7 @@ public class GetCroppedPhoto extends FragmentActivity {
 
 
     public void getLAB(){
-        AssetDataBaseHelper assetdbhelper= new AssetDataBaseHelper(this);
+        AssetDataBaseHelper assetdbhelper = AssetDataBaseHelper.getInstance(this);
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
         String columns[] = {DBOpenHelper.COLOR_DATA_ID ,
                 DBOpenHelper.COLOR_DATA_NAME_COLUMN ,
