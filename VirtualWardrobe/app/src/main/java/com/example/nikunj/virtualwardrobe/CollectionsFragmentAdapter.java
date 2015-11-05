@@ -86,6 +86,19 @@ public class CollectionsFragmentAdapter extends BaseAdapter
             v.setTag(R.id.grid_item_menu,v.findViewById(R.id.grid_item_menu));
         }
 
+        picture = (ImageView)v.getTag(R.id.picture);
+        name = (TextView)v.getTag(R.id.text);
+        final Integer positionItemId = items.get(position).getCollectionListItemId();
+        picture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Toast.makeText(myContext, "You Clicked at Db position " + positionItemId, Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
         gridItemMenu = (ImageView) v.findViewById(R.id.grid_item_menu);
         gridItemMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,8 +137,7 @@ public class CollectionsFragmentAdapter extends BaseAdapter
             }
         });
 
-        picture = (ImageView)v.getTag(R.id.picture);
-        name = (TextView)v.getTag(R.id.text);
+
 
         CollectionsList item = (CollectionsList)getItem(position);
 

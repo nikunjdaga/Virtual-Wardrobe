@@ -26,6 +26,9 @@ import com.github.clans.fab.FloatingActionButton;
 import java.util.ArrayList;
         import java.util.List;
 
+/**
+ * Created by nikunj on 1/10/15.
+ */
 public class CollectionsFragment extends Fragment
 {
     SavePhotoDBOpenHelper db;
@@ -37,25 +40,19 @@ public class CollectionsFragment extends Fragment
         View gridview_layout = inflater.inflate(R.layout.collections_fragment_gridview, container, false);
 
          db = new SavePhotoDBOpenHelper(getActivity());
-//        db.addCollectionListItem(new CollectionsList("Image 1", R.drawable.nature1));
-//        db.addCollectionListItem(new CollectionsList("Image 2",R.drawable.nature2));
-//        db.addCollectionListItem(new CollectionsList("Image 3",R.drawable.nature3));
-//        db.addCollectionListItem(new CollectionsList("Image 4",R.drawable.tree1));
-//        db.addCollectionListItem(new CollectionsList("Image 5",R.drawable.tree2));
-//        db.addCollectionListItem(new CollectionsList("Image 6",R.drawable.nature2));
 
         GridView gridView = (GridView)gridview_layout.findViewById(R.id.collectionsGridview);
         gridView.setAdapter(new CollectionsFragmentAdapter(getContext()));
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //  Intent intent = new Intent(getActivity(), HollyViewPagerActivity.class);
-                // intent.putExtra(key, titleName);
-                //startActivity(intent);
-                Toast.makeText(getActivity(), "You Clicked at " + position, Toast.LENGTH_SHORT).show();
-
-            }
-        });
+//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                //  Intent intent = new Intent(getActivity(), HollyViewPagerActivity.class);
+//                // intent.putExtra(key, titleName);
+//                //startActivity(intent);
+//                Toast.makeText(getActivity(), "You Clicked at " + position, Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
         gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {

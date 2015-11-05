@@ -34,6 +34,8 @@ public class TypeFragment extends Fragment
     private FloatingActionButton fabCameraPhotoButton;
     private FloatingActionButton fabGalleryPhotoButton;
     private FloatingActionButton fabAddTypeButton;
+    private boolean closeMenu;
+    private FloatingActionMenu floatingActionMenu;
 
     private List<FloatingActionMenu> menus = new ArrayList<>();
 
@@ -45,19 +47,21 @@ public class TypeFragment extends Fragment
         View gridview_layout = inflater.inflate(R.layout.type_fragment_gridview, container, false);
 
         db = new SavePhotoDBOpenHelper(getActivity());
+        closeMenu = true;
 
-        GridView gridView = (GridView)gridview_layout.findViewById(R.id.typeGridview);
+        final GridView gridView = (GridView)gridview_layout.findViewById(R.id.typeGridview);
         gridView.setAdapter(new TypeFragmentAdapter(getContext()));
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Intent intent = new Intent(getActivity(), HollyViewPagerActivity.class);
-                // intent.putExtra(key, titleName);
-                //startActivity(intent);
-                Toast.makeText(getActivity(), "You Clicked at " + position, Toast.LENGTH_SHORT).show();
-
-            }
-        });
+//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                //Intent intent = new Intent(getActivity(), HollyViewPagerActivity.class);
+//                // intent.putExtra(key, titleName);
+//                //startActivity(intent);
+//                Integer itemId = gridView.getAdapter().getItem(position).;
+//                Toast.makeText(getActivity(), "You Clicked at " + position, Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
 
 
         gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -98,7 +102,7 @@ public class TypeFragment extends Fragment
             }
         });
 
-        final FloatingActionMenu menu1 = (FloatingActionMenu) gridview_layout.findViewById(R.id.menu1);
+        floatingActionMenu = (FloatingActionMenu) gridview_layout.findViewById(R.id.menu1);
         fabCameraPhotoButton= (FloatingActionButton) gridview_layout.findViewById(R.id.cameraPhotoButton);
         fabGalleryPhotoButton = (FloatingActionButton) gridview_layout.findViewById(R.id.galleryPhotoButton);
         fabAddTypeButton = (FloatingActionButton) gridview_layout.findViewById(R.id.addTypeButton);
@@ -107,19 +111,19 @@ public class TypeFragment extends Fragment
         fabGalleryPhotoButton.setOnClickListener(clickListener);
         fabAddTypeButton.setOnClickListener(clickListener);
 
-        menu1.setOnMenuButtonClickListener(new View.OnClickListener() {
+        floatingActionMenu.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (menu1.isOpened()) {
-                    Toast.makeText(getActivity(), menu1.getMenuButtonLabelText(), Toast.LENGTH_SHORT).show();
+                if (floatingActionMenu.isOpened()) {
+                    Toast.makeText(getActivity(), floatingActionMenu.getMenuButtonLabelText(), Toast.LENGTH_SHORT).show();
                 }
 
-                menu1.toggle(true);
+                floatingActionMenu.toggle(true);
             }
         });
-        menus.add(menu1);
+        menus.add(floatingActionMenu);
 
-        menu1.hideMenuButton(false);
+        floatingActionMenu.hideMenuButton(false);
 
         int delay = 400;
         for (final FloatingActionMenu menu : menus) {
@@ -132,11 +136,14 @@ public class TypeFragment extends Fragment
             delay += 150;
         }
 
-        menu1.setClosedOnTouchOutside(true);
+        floatingActionMenu.setClosedOnTouchOutside(true);
+
 
         db.close();
         return gridview_layout;
     }
+
+   
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
@@ -146,15 +153,18 @@ public class TypeFragment extends Fragment
             switch (v.getId()) {
                 case R.id.cameraPhotoButton:
                     Intent intent=new Intent();
-                    intent.setClass(getActivity(),CameraPhoto.class);
+                    intent.setClass(getActivity(), CameraPhoto.class);
                     startActivity(intent);
+                    floatingActionMenu.toggle(true);
                     break;
                 case R.id.galleryPhotoButton:
                     Intent intent2=new Intent();
                     intent2.setClass(getActivity(),GalleryPhoto.class);
                     startActivity(intent2);
+                    floatingActionMenu.toggle(true);
                     break;
                 case R.id.addTypeButton:
+                    floatingActionMenu.toggle(true);
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                             getActivity());
                     //alertDialogBuilder.setView(R.layout.add_collection_type_alert_dialog);
@@ -203,7 +213,7 @@ public class TypeFragment extends Fragment
                     break;
 
             }
-
+            db.close();
             Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
         }
     };

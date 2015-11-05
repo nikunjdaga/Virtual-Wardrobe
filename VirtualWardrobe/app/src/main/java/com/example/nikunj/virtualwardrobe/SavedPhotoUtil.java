@@ -25,19 +25,19 @@ public class SavedPhotoUtil {
     }
 
     //constructor without collections name
-    public SavedPhotoUtil(String description,Integer isFavourite,
-                          Float created_at,String locationPath,
-                          String colorSelected, Integer typeName,
-                          Integer colorMainBracket) {
-        this.description = description;
-        this.isFavourite = isFavourite;
-        this.created_at = created_at;
-        this.colorSelected = colorSelected;
-        this.locationPath = locationPath;
-        this.typeName = typeName;
-        this.colorMainBracket = colorMainBracket;
-        // this.brand = brand;
-    }
+//    public SavedPhotoUtil(String description,Integer isFavourite,
+//                          Float created_at,String locationPath,
+//                          String colorSelected, Integer typeName,
+//                          Integer colorMainBracket) {
+//        this.description = description;
+//        this.isFavourite = isFavourite;
+//        this.created_at = created_at;
+//        this.colorSelected = colorSelected;
+//        this.locationPath = locationPath;
+//        this.typeName = typeName;
+//        this.colorMainBracket = colorMainBracket;
+//        // this.brand = brand;
+//    }
 
 
 

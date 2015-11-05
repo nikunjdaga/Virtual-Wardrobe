@@ -1,37 +1,43 @@
 package com.example.nikunj.virtualwardrobe;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by root on 3/10/15.
+ * Created by nikunj on 3/10/15.
  */
 
 
 public class ColorFragmentAdapter extends BaseAdapter
 {
-    private List<Item> items = new ArrayList<Item>();
+    private List<ColorMainList> items = new ArrayList<>();
     private LayoutInflater inflater;
     Context myContext;
+    SavePhotoDBOpenHelper db;
 
     public ColorFragmentAdapter(Context context)
     {
         myContext = context;
         inflater = LayoutInflater.from(context);
 
-        items.add(new Item("Image 1", R.drawable.nature1));
-        items.add(new Item("Image 2", R.drawable.nature2));
-        items.add(new Item("Image 3", R.drawable.tree1));
-        items.add(new Item("Image 4", R.drawable.nature3));
-        items.add(new Item("Image 5", R.drawable.tree2));
+        db = new SavePhotoDBOpenHelper(myContext);
+
+        items = db.getAllColorMainListItem(myContext);
+
+        db.close();
+
+
     }
 
     @Override
@@ -48,11 +54,11 @@ public class ColorFragmentAdapter extends BaseAdapter
     @Override
     public long getItemId(int i)
     {
-        return items.get(i).drawableId;
+        return items.get(i).getColorMainListItemDrawableId();
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup)
+    public View getView(final int position, View view, ViewGroup viewGroup)
     {
         View v = view;
         ImageView picture;
@@ -65,26 +71,18 @@ public class ColorFragmentAdapter extends BaseAdapter
             v.setTag(R.id.text, v.findViewById(R.id.text));
         }
 
+
         picture = (ImageView)v.getTag(R.id.picture);
         name = (TextView)v.getTag(R.id.text);
 
-        Item item = (Item)getItem(i);
+        ColorMainList item = (ColorMainList)getItem(position);
 
-        picture.setImageResource(item.drawableId);
-        name.setText(item.name);
+        picture.setImageResource(item.getColorMainListItemDrawableId());
+        name.setText(item.getColorMainName());
 
         return v;
     }
 
-    private class Item
-    {
-        final String name;
-        final int drawableId;
 
-        Item(String name, int drawableId)
-        {
-            this.name = name;
-            this.drawableId = drawableId;
-        }
-    }
+
 }

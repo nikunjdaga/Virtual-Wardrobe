@@ -65,13 +65,13 @@ public class GalleryPhoto extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gallery_photo);
+
         Intent i = new Intent(
                 Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         startActivityForResult(i, RESULT_LOAD_IMAGE);
-
+        setContentView(R.layout.activity_gallery_photo);
         // Initialize components of the app
           cropImageView = (CropImageView) findViewById(R.id.CropImageView);
 
@@ -159,6 +159,9 @@ public class GalleryPhoto extends AppCompatActivity {
             cropImageView = (CropImageView) findViewById(R.id.CropImageView);
             cropImageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
+        }
+        else {
+            finish();
         }
 
 

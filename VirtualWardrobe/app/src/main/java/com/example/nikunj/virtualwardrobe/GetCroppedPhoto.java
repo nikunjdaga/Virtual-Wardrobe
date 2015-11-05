@@ -1,5 +1,6 @@
 package com.example.nikunj.virtualwardrobe;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -258,12 +259,15 @@ public class GetCroppedPhoto extends FragmentActivity {
         description = (EditText) findViewById(R.id.descriptionEdittext);
 
         descriptionText = description.getText().toString();
+        Log.e("descriptionText",descriptionText);
+
 
         savePhoto = (Button) findViewById(R.id.savePhoto);
 
         savePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
 //                String typeListSpinnerString = String.valueOf(typeListSpinner.getSelectedItem());
 //                String collectionListSpinnerString = String.valueOf(collectionListSpinner.getSelectedItem());
@@ -273,19 +277,32 @@ public class GetCroppedPhoto extends FragmentActivity {
                 //Log.e("typeListItem",typeListSpinnerString);
                 final Integer mainNameId = getMainBracketNameId();
 
-                savePhotoDB.addPhotoItem(getApplicationContext() , new SavedPhotoUtil(descriptionText, isFavouriteInteger,
-                                                    photoCreatedDateInteger, photoLocationPath,MAIN_NAME,
+                savePhotoDB.addPhotoItem(getApplicationContext(), new SavedPhotoUtil(descriptionText, isFavouriteInteger,
+                        photoCreatedDateInteger, photoLocationPath, MAIN_NAME,
                         typeListSpinnerInteger, collectionListSpinnerInteger, mainNameId));
                 Toast.makeText(GetCroppedPhoto.this, "Photo Added", Toast.LENGTH_SHORT).show();
 
+
                 finish();
+//                Intent intent = new Intent(getApplicationContext(), MainViewPager.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
+
+
             }
         });
 
+        savePhotoDB.close();
 
 
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
         savePhotoDB.close();
     }
+
 
 
     public ArrayList<String> getTypeAllListItemNames(List<TypeList> typeListItems){
@@ -383,11 +400,11 @@ public class GetCroppedPhoto extends FragmentActivity {
             MainL2.B = colorMainListDBItems.get(k).getColorMainBvalue();
 
             DeltaECalculator deltaECalculatorMain = new DeltaECalculator(MainL1, MainL2);
-            Log.e("for loop chala",k + "");
+           // Log.e("for loop chala",k + "");
             DEL_E_MAIN = deltaECalculatorMain.CIEDeltaE2000();
 
             if(TEMP_DEL_E_MAIN > DEL_E_MAIN) {
-                Log.e("if loop chala"," main name set");
+               // Log.e("if loop chala"," main name set");
                 TEMP_DEL_E_MAIN = DEL_E_MAIN;
                 mainBracketNameId = colorMainListDBItems.get(k).getColorMainListItemId();
             }
@@ -418,6 +435,7 @@ public class GetCroppedPhoto extends FragmentActivity {
 
                         try {
                             fm.beginTransaction().replace(R.id.info_area, ColorPaletteResultsFragment.newInstance((java.util.ArrayList<Integer>) answer, elapsedTime)).commit();
+                            Log.e("ColorListInteger",answer + "");
 
                         } catch (NullPointerException e) {
                         }

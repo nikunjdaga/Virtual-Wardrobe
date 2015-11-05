@@ -36,7 +36,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
     // Saved Photo table create statement
 //    CREATE TABLE `savedPhoto` (
 //            `_id`	INTEGER,
-//            `_description`	TEXT,
+//            `_description`	BLOB,
 //            `_is_favourite`	INTEGER,
 //            `_created_at`	REAL,
 //            `_location_path`	BLOB NOT NULL,
@@ -51,7 +51,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 //            );
     private static final String CREATE_TABLE_SAVED_PHOTO_UTIL = "CREATE TABLE " + TABLE_SAVED_PHOTO_UTIL
             + " (" + SavedPhotoColumns.ID_VALUE + " INTEGER PRIMARY KEY,"
-            + SavedPhotoColumns.DESCRIPTION + " TEXT,"
+            + SavedPhotoColumns.DESCRIPTION + " BLOB,"
             + SavedPhotoColumns.IS_FAVOURITE + " INTEGER,"
             + SavedPhotoColumns.CREATED_AT + " REAL,"
             + SavedPhotoColumns.LOCATION_PATH + " BLOB NOT NULL,"
@@ -185,6 +185,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
                 cursor.getString(1),Integer.parseInt(cursor.getString(2)));
 
         cursor.close();
+        db.close();
         // return collecton list item
         return collectionListItems;
     }
@@ -210,6 +211,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
             } while (cursor.moveToNext());
         }
         cursor.close();
+        db.close();
         // return collection list
         return collectionList;
     }
@@ -224,8 +226,10 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         values.put(CollectionsColumns.DRAWABLE_ID, collectionsList.getCollectionListItemDrawableId());
 
         // updating row
-        return db.update(TABLE_COLLECTIONS, values, CollectionsColumns.ID_VALUE + " = ?",
+        Integer xa =  db.update(TABLE_COLLECTIONS, values, CollectionsColumns.ID_VALUE + " = ?",
                 new String[] { String.valueOf(collectionsList.getCollectionListItemId()) });
+        db.close();
+        return  xa;
     }
 
     // Deleting single collection list item
@@ -246,7 +250,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         Cursor cursor = db.rawQuery(countQuery, null);
         Integer x = cursor.getCount();
         cursor.close();
-
+        db.close();
         // return count
         return x;
     }
@@ -285,6 +289,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
                 cursor.getString(1),Integer.parseInt(cursor.getString(2)));
 
         cursor.close();
+        db.close();
         // return type list item
         return typeList;
     }
@@ -345,7 +350,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         Cursor cursor = db.rawQuery(countQuery, null);
         Integer x = cursor.getCount();
         cursor.close();
-
+        db.close();
         // return count
         return x;
     }
@@ -400,6 +405,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 
              cursor.close();
          }
+        db.close();
         // return saved photo list item
         return savedPhotoUtil;
     }
@@ -435,6 +441,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
             } while (cursor.moveToNext());
         }
             cursor.close();
+        db.close();
         // return saved photo item list
         return savedPhotoItemsList;
     }
@@ -454,8 +461,11 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         values.put(SavedPhotoColumns.COLLECTIONS_NAME_TABLE_ID, savedPhotoUtil.getCollectionIdFromTable());
         values.put(SavedPhotoColumns.COLOR_MAIN_BRACKET_TABLE_ID, savedPhotoUtil.getColorMainBracketIdFromTable());
         // updating row
-        return db.update(TABLE_SAVED_PHOTO_UTIL, values, SavedPhotoColumns.ID_VALUE + " = ?",
+        Integer y = db.update(TABLE_SAVED_PHOTO_UTIL, values, SavedPhotoColumns.ID_VALUE + " = ?",
                 new String[] { String.valueOf(savedPhotoUtil.getPhotoId()) });
+
+        db.close();
+        return y;
     }
 
     // Deleting single photo item
@@ -475,7 +485,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         Cursor cursor = db.rawQuery(countQuery, null);
         Integer x = cursor.getCount();
         cursor.close();
-
+        db.close();
         // return count
         return x;
     }
@@ -508,6 +518,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
             cursor.close();
         }
         // return color list item
+        db.close();
         return colorMainListItems;
     }
 
@@ -540,6 +551,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
             } while (cursor.moveToNext());
         }
         cursor.close();
+        db.close();
         // return collection list
         return colorMainList;
     }
@@ -552,7 +564,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         Cursor cursor = db.rawQuery(countQuery, null);
         Integer x = cursor.getCount();
         cursor.close();
-
+        db.close();
         // return count
         return x;
     }

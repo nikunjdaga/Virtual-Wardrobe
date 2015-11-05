@@ -8,4 +8,5 @@
     <string name="title_activity_camera_photo">CameraPhoto</string>
     <string name="title_activity_get_cropped_photo">GetCroppedPhoto</string>
     <string name="title_activity_holly_view_pager">HollyViewPagerActivity</string>
+    <string name="title_activity_photos_view_pager_class">PhotosViewPagerClass</string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.nikunj.virtualwardrobe;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,41 +27,27 @@ public class TypeFragmentAdapter extends BaseAdapter
     private LayoutInflater inflater;
     Context myContext;
     SavePhotoDBOpenHelper db;
+    Integer positionGridView;
+
     public TypeFragmentAdapter(Context context)
     {
         myContext = context;
         inflater = LayoutInflater.from(context);
 
-//        items.add(new Item("Image 1", R.drawable.nature1));
-//        items.add(new Item("Image 2", R.drawable.nature2));
-//        items.add(new Item("Image 3", R.drawable.tree1));
-//        items.add(new Item("Image 4", R.drawable.nature3));
-//        items.add(new Item("Image 5", R.drawable.tree2));
 
         db = new SavePhotoDBOpenHelper(myContext);
-        //db.addTypeListItem(myContext,new TypeList("Image 1", R.drawable.nature1));
-        //db.addTypeListItem(myContext,new TypeList("Image 2", R.drawable.nature2));
-        //db.addTypeListItem(myContext,new TypeList("Image 3", R.drawable.nature3));
-        //db.addTypeListItem(myContext,new TypeList("Image 4", R.drawable.tree1));
-        //db.addTypeListItem(myContext,new TypeList("Image 5", R.drawable.tree2));
-        //db.addTypeListItem(myContext,new TypeList("Image 6", R.drawable.nature2));
-//        Log.e("ImageIntId", R.drawable.nature1 + "");
-//        Log.e("ImageIntId",R.drawable.nature2 + "");
-//        Log.e("ImageIntId",R.drawable.nature3 + "");
-//        Log.e("ImageIntId",R.drawable.tree1 + "");
-//        Log.e("ImageIntId",R.drawable.tree2 + "");
 
 
 
         items = db.getAllTypeListItem(myContext);
 
-//        for (CollectionsList collectionlistsitems : items) {
-//            items.add(new CollectionsList(collectionlistsitems.getCollectionsName(),collectionlistsitems.getCollectionListItemDrawableId()));
-//
-//        }
         db.close();
     }
 
+    public TypeFragmentAdapter(Integer position){
+
+        positionGridView = position;
+    }
     @Override
     public int getCount() {
         return items.size();
@@ -78,13 +65,19 @@ public class TypeFragmentAdapter extends BaseAdapter
         return items.get(i).getTypeListItemDrawableId();
     }
 
+
+//    public Integer getItemDbId(int i){
+//        return items.get(i).getTypeListItemId();
+//    }
+
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup)
+    public View getView(int position, View view, ViewGroup viewGroup)
     {
         View v = view;
         ImageView picture;
         TextView name;
         ImageView gridItemMenu;
+        final Integer positionItemId = items.get(position).getTypeListItemId();;
 
         if(v == null)
         {
@@ -95,8 +88,24 @@ public class TypeFragmentAdapter extends BaseAdapter
 
         }
 
+        Log.e("position for item1",positionItemId +"");
+
         picture = (ImageView)v.getTag(R.id.picture);
         name = (TextView)v.getTag(R.id.text);
+
+        picture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(myContext, PhotosViewPager.class);
+                i.putExtra("position_for_item",positionItemId);
+                Log.e("position for item2",positionItemId +"");
+                myContext.startActivity(i);
+                Toast.makeText(myContext, "You Clicked at Db position " + positionItemId, Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
 
         gridItemMenu = (ImageView) v.findViewById(R.id.grid_item_menu);
         gridItemMenu.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +144,7 @@ public class TypeFragmentAdapter extends BaseAdapter
                 alertDialog.show();
             }
         });
-        TypeList item = (TypeList)getItem(i);
+        TypeList item = (TypeList)getItem(position);
 
         picture.setImageResource(item.getTypeListItemDrawableId());
         name.setText(item.getTypeName());

@@ -72,7 +72,7 @@ public class CameraPhoto extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gallery_photo);
+
 
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -80,7 +80,7 @@ public class CameraPhoto extends AppCompatActivity {
         // Start the image capture intent to take photo
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
        // onLaunchCamera();
-
+        setContentView(R.layout.activity_gallery_photo);
         // Initialize components of the app
         cropImageView = (CropImageView) findViewById(R.id.CropImageView);
 
@@ -166,6 +166,7 @@ public class CameraPhoto extends AppCompatActivity {
                 cropImageView.setImageBitmap(takenImage);
             } else { // Result was a failure
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+                finish();
             }
         }
     }

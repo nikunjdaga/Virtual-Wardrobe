@@ -1,7 +1,9 @@
 package com.example.nikunj.virtualwardrobe;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Kimo on 8/29/14.
+ * Created by nikunj on 8/29/14.
  */
 public class ColorPaletteResultsFragment extends Fragment {
 
@@ -72,7 +74,7 @@ public class ColorPaletteResultsFragment extends Fragment {
 
             View palleteColor = inflater.inflate(R.layout.item_pallete, paletteContainer, false);
             palleteColor.setBackgroundColor(color);
-
+            Log.e("color list item", Color.red(color)+" "+ Color.green(color) +" " + Color.blue(color)+"");
             paletteContainer.addView(palleteColor);
         }
     }
