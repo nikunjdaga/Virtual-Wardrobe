@@ -126,7 +126,7 @@ public class CameraPhoto extends AppCompatActivity {
 
                 try {
                     fos = openFileOutput("BITMAP_A", Context.MODE_PRIVATE);
-                    croppedImage.compress(Bitmap.CompressFormat.JPEG, 0, fos);
+                    croppedImage.compress(Bitmap.CompressFormat.JPEG, 30, fos);
                     fos.flush();
                     fos.close();
 

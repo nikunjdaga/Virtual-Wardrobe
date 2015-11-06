@@ -16,9 +16,7 @@ public class CreateDirectoryAndSavePhoto {
     public CreateDirectoryAndSavePhoto(){}
     public CreateDirectoryAndSavePhoto(Bitmap imageToSave) {
 
-        String dateCreated = getPhotoCreateDate();
-
-        String fileName= "image-" + dateCreated +".jpg";
+        String fileName= getFileNameForFile();
         File direct = new File(Environment.getExternalStorageDirectory() + "/VirtualWardrobe");
 
         if (!direct.exists()) {
@@ -33,7 +31,7 @@ public class CreateDirectoryAndSavePhoto {
         try {
             FileOutputStream out = new FileOutputStream(file);
             //imageToSave.sameAs();
-            imageToSave.compress(Bitmap.CompressFormat.JPEG, 0, out);
+            imageToSave.compress(Bitmap.CompressFormat.JPEG, 30, out);
             out.flush();
             out.close();
         } catch (Exception e) {
@@ -41,25 +39,13 @@ public class CreateDirectoryAndSavePhoto {
         }
     }
 
-    public String getLocationPath(){
+    public String getFileNameForFile(){
 
         String dateCreated = getPhotoCreateDate();
 
-        String fileName= "image-" + dateCreated +".jpg";
-        File direct = new File(Environment.getExternalStorageDirectory() + "/VirtualWardrobe");
+        String fileNameMain= "image-" + dateCreated +".jpg";
 
-        if (!direct.exists()) {
-            File virtualWardrobeDirectory = new File(Environment.getExternalStorageDirectory().getPath() +"/VirtualWardrobe/");
-            virtualWardrobeDirectory.mkdirs();
-        }
-
-        File file = new File(new File(Environment.getExternalStorageDirectory().getPath() +"/VirtualWardrobe/"), fileName);
-        if (file.exists()) {
-            file.delete();
-        }
-
-        String mainFilePath = Environment.getExternalStorageDirectory().getPath() +"/VirtualWardrobe/" + fileName;
-        return mainFilePath;
+        return fileNameMain;
     }
     public String getPhotoCreateDate(){
 
@@ -68,4 +54,5 @@ public class CreateDirectoryAndSavePhoto {
         return date;
 
     }
+
 }

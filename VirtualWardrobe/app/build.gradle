@@ -27,4 +27,5 @@ dependencies {
     compile 'com.github.clans:fab:1.6.0'
     compile 'com.theartofdev.edmodo:android-image-cropper:1.0.4'
     compile 'com.github.thiagokimo:alexei-library:1.4'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

@@ -11,8 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +35,7 @@ class PhotosViewPagerAdapter extends PagerAdapter {
     TextView descriptionOfClothes,isFavInteger,
             createdAtText,exactColorSelectedText,typeNameText,
             collectionNameText,colorMainBracketNameText;
+
 
 
 
@@ -69,6 +74,8 @@ class PhotosViewPagerAdapter extends PagerAdapter {
         mAllCreatedAtText = AllCreatedAtText;
         mAllIDValues = AllIDValues;
 
+
+
     }
 
     @Override
@@ -78,7 +85,7 @@ class PhotosViewPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view == (object);
+        return view == ((RelativeLayout)object);
     }
 
     @Override
@@ -90,7 +97,12 @@ class PhotosViewPagerAdapter extends PagerAdapter {
         photoViewPagerItem = (ImageView) itemView.findViewById(R.id.photoViewPagerItem);
 
 
-        photoViewPagerItem.setImageURI(Uri.parse("file://" + mAllLocationUris.get(position)));
+//        photoViewPagerItem.setImageURI(Uri.parse("file://" + mAllLocationUris.get(position)));
+        File f = new File(mAllLocationUris.get(position));
+
+        Picasso.with(mContext)
+                .load(f)
+                .into(photoViewPagerItem);
 
         Log.e("photoLocation", mAllLocationUris.get(position));
 
@@ -116,7 +128,7 @@ class PhotosViewPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((LinearLayout) object);
+        container.removeView((RelativeLayout) object);
     }
 
 

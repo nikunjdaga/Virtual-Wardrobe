@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
@@ -257,7 +258,9 @@ public class GetCroppedPhoto extends FragmentActivity {
          final Float photoCreatedDateInteger = Float.parseFloat(photoCreatedDate);
         //Log.e("Photo Created Date ",photoCreatedDate);
 
-        photoLocationPath = new CreateDirectoryAndSavePhoto().getLocationPath();
+        String mainFilePath = Environment.getExternalStorageDirectory().getPath() +"/VirtualWardrobe/";
+
+        photoLocationPath = mainFilePath + new CreateDirectoryAndSavePhoto().getFileNameForFile();
 
         description = (EditText) findViewById(R.id.descriptionEdittext);
 

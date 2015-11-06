@@ -17,6 +17,7 @@ public class PhotosViewPager extends AActivity {
 
     Integer dBPositionItemID;
 
+
     // Table Names
     private static final String TABLE_COLTHES_TYPE = "clothesType";
     private static final String TABLE_COLLECTIONS = "collections";
@@ -40,23 +41,26 @@ public class PhotosViewPager extends AActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getVariousLists();
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            if (mAllIDValues != null) {
-                Log.e("extras not null", "");
-                setContentView(R.layout.activity_photos_view_pager);
-                dBPositionItemID = extras.getInt("position_for_item");
 
-                Log.e("dbPositionId", dBPositionItemID + "");
+            Log.e("extras not null", "");
+            setContentView(R.layout.activity_photos_view_pager);
+            dBPositionItemID = extras.getInt("position_for_item");
+
+            Log.e("dbPositionId", dBPositionItemID + "");
+
+            for(int i = 0;i<mAllExactColorSelected.size();i++){
+                Log.e("AllExactColor",mAllExactColorSelected.get(i));
             }
-            else{
-                setContentView(R.layout.photos_view_pager_empty);
-            }
+        } else{
+            setContentView(R.layout.photos_view_pager_empty);
         }
 
 
+        getVariousLists();
 
         PhotosViewPagerAdapter mCustomPagerAdapter = new PhotosViewPagerAdapter(this,dBPositionItemID,
                                 mAllDescriptionOfClothes,mAllExactColorSelected,mAllTypeName,mAllCollectionName,
@@ -65,7 +69,9 @@ public class PhotosViewPager extends AActivity {
         ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mCustomPagerAdapter);
 
-        savePhotoDB.close();
+        if(savePhotoDB != null){
+            savePhotoDB.close();
+        }
     }
 
     @Override
@@ -78,6 +84,12 @@ public class PhotosViewPager extends AActivity {
         return null;
     }
 
+    public void onDestroy(){
+        super.onDestroy();
+        if(savePhotoDB != null){
+            savePhotoDB.close();
+        }
+    }
 
     //query for type name to be found from type id in savedphoto table
 
@@ -103,7 +115,7 @@ public class PhotosViewPager extends AActivity {
 //    WHERE clothesType._id = 1;
 
     public void getVariousLists(){
-        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(this);
+        AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(getApplicationContext());
         SQLiteDatabase db = assetdbhelper.getReadableDatabase();
 //        String columns[] = {SavedPhotoColumns.ID_VALUE,
 //                SavedPhotoColumns.DESCRIPTION,
@@ -159,5 +171,7 @@ public class PhotosViewPager extends AActivity {
         db.close();
 
     }
+
+
 
 }
