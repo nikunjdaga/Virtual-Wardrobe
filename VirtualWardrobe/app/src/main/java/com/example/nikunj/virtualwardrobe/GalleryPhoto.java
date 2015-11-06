@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,6 +44,8 @@ public class GalleryPhoto extends AppCompatActivity {
     private int mAspectRatioY = DEFAULT_ASPECT_RATIO_VALUES;
 
     Bitmap croppedImage;
+
+    String galleryFileName;
 
     public CropImageView cropImageView;
 
@@ -113,12 +116,17 @@ public class GalleryPhoto extends AppCompatActivity {
 //                ImageView croppedImageView = (ImageView) findViewById(R.id.croppedImageView);
 //                croppedImageView.setImageBitmap(croppedImage);
 
+                String mainFilePath = Environment.getExternalStorageDirectory().getPath() +"/VirtualWardrobe/" + new CreateDirectoryAndSavePhoto().getFileNameForFile();
+
                 new CreateDirectoryAndSavePhoto(croppedImage);
                 FileOutputStream fos;
 
                 try {
                     fos = openFileOutput("BITMAP_A", Context.MODE_PRIVATE);
                     croppedImage.compress(Bitmap.CompressFormat.JPEG, 30, fos);
+
+                    setFileNameMainGallery(mainFilePath);
+
                     fos.flush();
                     fos.close();
 
@@ -134,6 +142,7 @@ public class GalleryPhoto extends AppCompatActivity {
                 }
 
                 Intent intent = new Intent(GalleryPhoto.this, GetCroppedPhoto.class);
+                intent.putExtra("location_path",galleryFileName);
                 startActivity(intent);
             }
         });
@@ -169,6 +178,12 @@ public class GalleryPhoto extends AppCompatActivity {
 
 
     }
+
+    public void setFileNameMainGallery(String mFileName){
+        this.galleryFileName = mFileName;
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -128,6 +128,10 @@ public class GetCroppedPhoto extends FragmentActivity {
 //            e.printStackTrace();
 //        }
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            photoLocationPath = extras.getString("location_path");
+        }
 
         resized = Bitmap.createScaledBitmap(bitmapA, 500, 500, true);
         croppedImageView.setImageBitmap(resized);
@@ -258,9 +262,6 @@ public class GetCroppedPhoto extends FragmentActivity {
          final Float photoCreatedDateInteger = Float.parseFloat(photoCreatedDate);
         //Log.e("Photo Created Date ",photoCreatedDate);
 
-        String mainFilePath = Environment.getExternalStorageDirectory().getPath() +"/VirtualWardrobe/";
-
-        photoLocationPath = mainFilePath + new CreateDirectoryAndSavePhoto().getFileNameForFile();
 
         description = (EditText) findViewById(R.id.descriptionEdittext);
 
@@ -269,6 +270,7 @@ public class GetCroppedPhoto extends FragmentActivity {
 
 
         savePhoto = (Button) findViewById(R.id.savePhoto);
+
 
         savePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -280,8 +282,14 @@ public class GetCroppedPhoto extends FragmentActivity {
                 Integer typeListSpinnerInteger = typesListNamesId.get(typeListSpinner.getSelectedItemPosition());
                 Integer collectionListSpinnerInteger = collectionListNamesId.get(collectionListSpinner.getSelectedItemPosition());
 
+
+
                 //Log.e("typeListItem",typeListSpinnerString);
                 final Integer mainNameId = getMainBracketNameId();
+
+
+               // String mainFilePath = Environment.getExternalStorageDirectory().getPath() +"/VirtualWardrobe/";
+
 
                 savePhotoDB.addPhotoItem(getApplicationContext(), new SavedPhotoUtil(descriptionText, isFavouriteInteger,
                         photoCreatedDateInteger, photoLocationPath, MAIN_NAME,

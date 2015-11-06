@@ -49,6 +49,8 @@ public class CameraPhoto extends AppCompatActivity {
 
     public CropImageView cropImageView;
 
+    private String fileName;
+
     // Saves the state upon rotating the screen/restarting the activity
     @Override
     protected void onSaveInstanceState(@SuppressWarnings("NullableProblems") Bundle bundle) {
@@ -120,6 +122,7 @@ public class CameraPhoto extends AppCompatActivity {
                 croppedImage = cropImageView.getCroppedImage();
 //                ImageView croppedImageView = (ImageView) findViewById(R.id.croppedImageView);
 //                croppedImageView.setImageBitmap(croppedImage);
+                String mainFilePath = Environment.getExternalStorageDirectory().getPath() +"/VirtualWardrobe/" + new CreateDirectoryAndSavePhoto().getFileNameForFile();
 
                 new CreateDirectoryAndSavePhoto(croppedImage);
                 FileOutputStream fos;
@@ -127,6 +130,7 @@ public class CameraPhoto extends AppCompatActivity {
                 try {
                     fos = openFileOutput("BITMAP_A", Context.MODE_PRIVATE);
                     croppedImage.compress(Bitmap.CompressFormat.JPEG, 30, fos);
+                    setFileNameMainCamera(mainFilePath);
                     fos.flush();
                     fos.close();
 
@@ -140,6 +144,7 @@ public class CameraPhoto extends AppCompatActivity {
                 }
 
                 Intent intent = new Intent(CameraPhoto.this, GetCroppedPhoto.class);
+                intent.putExtra("location_path",fileName);
                 startActivity(intent);
             }
         });
@@ -198,6 +203,12 @@ public class CameraPhoto extends AppCompatActivity {
         }
         return false;
     }
+
+    public void setFileNameMainCamera(String mFileName){
+        this.fileName = mFileName;
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

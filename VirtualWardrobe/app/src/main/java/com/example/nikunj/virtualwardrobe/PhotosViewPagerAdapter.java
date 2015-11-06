@@ -14,7 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+
+import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -98,10 +99,12 @@ class PhotosViewPagerAdapter extends PagerAdapter {
 
 
 //        photoViewPagerItem.setImageURI(Uri.parse("file://" + mAllLocationUris.get(position)));
-        File f = new File(mAllLocationUris.get(position));
+        File file = new File(mAllLocationUris.get(position));
 
-        Picasso.with(mContext)
-                .load(f)
+        Glide.clear(photoViewPagerItem);
+        Glide.with(mContext)
+                .load(file)
+                .asBitmap()
                 .into(photoViewPagerItem);
 
         Log.e("photoLocation", mAllLocationUris.get(position));
