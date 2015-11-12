@@ -141,31 +141,32 @@ public class PhotosViewPager extends AActivity {
 
         Cursor c = db.rawQuery(selectQuery,null);
 
-        c.moveToFirst();
+        if(c != null && c.moveToFirst()) {
 
-        while (c.moveToNext()) {
-            Integer Idvalue = c.getInt(c.getColumnIndex(SavedPhotoColumns.ID_VALUE));
-            String photoDescription = c.getString(c.getColumnIndex(SavedPhotoColumns.DESCRIPTION));
-            String photoLocation = c.getString(c.getColumnIndex(SavedPhotoColumns.LOCATION_PATH));
-            String photoColorSelected = c.getString(c.getColumnIndex(SavedPhotoColumns.COLOR_SELECTED));
-            String photoMainColorName = c.getString(c.getColumnIndex(ColorColumns.NAME_MAIN_VALUE));
-            String photoCollectionName = c.getString(c.getColumnIndex(CollectionsColumns.COLLECTION_NAME));
-            String photoTypeName = c.getString(c.getColumnIndex(TypeNameColumns.TYPE_NAME));
+            do {
+                Integer Idvalue = c.getInt(c.getColumnIndex(SavedPhotoColumns.ID_VALUE));
+                String photoDescription = c.getString(c.getColumnIndex(SavedPhotoColumns.DESCRIPTION));
+                String photoLocation = c.getString(c.getColumnIndex(SavedPhotoColumns.LOCATION_PATH));
+                String photoColorSelected = c.getString(c.getColumnIndex(SavedPhotoColumns.COLOR_SELECTED));
+                String photoMainColorName = c.getString(c.getColumnIndex(ColorColumns.NAME_MAIN_VALUE));
+                String photoCollectionName = c.getString(c.getColumnIndex(CollectionsColumns.COLLECTION_NAME));
+                String photoTypeName = c.getString(c.getColumnIndex(TypeNameColumns.TYPE_NAME));
 
-            Float createdAtDate = c.getFloat(c.getColumnIndex(SavedPhotoColumns.CREATED_AT));
-            Integer isfavoriteValue = c.getInt(c.getColumnIndex(SavedPhotoColumns.IS_FAVOURITE));
+                Float createdAtDate = c.getFloat(c.getColumnIndex(SavedPhotoColumns.CREATED_AT));
+                Integer isfavoriteValue = c.getInt(c.getColumnIndex(SavedPhotoColumns.IS_FAVOURITE));
 
 
-            mAllIDValues.add(Idvalue);
-            mAllDescriptionOfClothes.add(photoDescription);
-            mAllLocationUris.add(photoLocation);
-            mAllExactColorSelected.add(photoColorSelected);
-            mAllColorMainBracketName.add(photoMainColorName);
-            mAllCollectionName.add(photoCollectionName);
-            mAllTypeName.add(photoTypeName);
-            mAllIsFavInteger.add(isfavoriteValue);
-            mAllCreatedAtText.add(createdAtDate);
+                mAllIDValues.add(Idvalue);
+                mAllDescriptionOfClothes.add(photoDescription);
+                mAllLocationUris.add(photoLocation);
+                mAllExactColorSelected.add(photoColorSelected);
+                mAllColorMainBracketName.add(photoMainColorName);
+                mAllCollectionName.add(photoCollectionName);
+                mAllTypeName.add(photoTypeName);
+                mAllIsFavInteger.add(isfavoriteValue);
+                mAllCreatedAtText.add(createdAtDate);
 
+            }while (c.moveToNext());
         }
         c.close();
         db.close();

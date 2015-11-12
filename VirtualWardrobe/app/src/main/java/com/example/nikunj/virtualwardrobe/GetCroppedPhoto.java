@@ -82,9 +82,6 @@ public class GetCroppedPhoto extends FragmentActivity {
 
     SavePhotoDBOpenHelper savePhotoDB;
 
-    private ArrayList<String> typeAllListItems = new ArrayList<String>();
-    private ArrayList<String> collectionAllListItems = new ArrayList<String>();
-
     ArrayList<Integer> collectionListNamesId = new ArrayList<>();
     ArrayList<Integer> typesListNamesId = new ArrayList<>();
 
@@ -265,8 +262,8 @@ public class GetCroppedPhoto extends FragmentActivity {
 
         description = (EditText) findViewById(R.id.descriptionEdittext);
 
-        descriptionText = description.getText().toString();
-        Log.e("descriptionText",descriptionText);
+//        descriptionText = description.getText().toString();
+//        Log.e("descriptionText",descriptionText);
 
 
         savePhoto = (Button) findViewById(R.id.savePhoto);
@@ -276,6 +273,8 @@ public class GetCroppedPhoto extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
+                descriptionText = description.getText().toString();
+                Log.e("descriptionText",descriptionText);
 
 //                String typeListSpinnerString = String.valueOf(typeListSpinner.getSelectedItem());
 //                String collectionListSpinnerString = String.valueOf(collectionListSpinner.getSelectedItem());

@@ -380,7 +380,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
 
     void addPhotoItem(Context context, SavedPhotoUtil savedPhotoUtil) {
         AssetDBHelperSavePhotoManager assetdbhelper= AssetDBHelperSavePhotoManager.getInstance(context);
-        SQLiteDatabase db = assetdbhelper.getWritableDatabase();
+
 
         ContentValues values = new ContentValues();
         values.put(SavedPhotoColumns.DESCRIPTION,savedPhotoUtil.getDescription());
@@ -391,6 +391,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         values.put(SavedPhotoColumns.TYPE_NAME_TABLE_ID,savedPhotoUtil.getTypeIdFromTable());
         values.put(SavedPhotoColumns.COLLECTIONS_NAME_TABLE_ID, savedPhotoUtil.getCollectionIdFromTable());
         values.put(SavedPhotoColumns.COLOR_MAIN_BRACKET_TABLE_ID,savedPhotoUtil.getColorMainBracketIdFromTable());// Inserting Row
+        SQLiteDatabase db = assetdbhelper.getWritableDatabase();
         db.insert(TABLE_SAVED_PHOTO_UTIL, null, values);
         db.close(); // Closing database connection
     }
@@ -436,7 +437,7 @@ public class SavePhotoDBOpenHelper extends SQLiteOpenHelper{
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             do {
                 SavedPhotoUtil savedPhotoUtilItem = new SavedPhotoUtil();
                   savedPhotoUtilItem.setPhotoId(Integer.parseInt(cursor.getString(0)));
