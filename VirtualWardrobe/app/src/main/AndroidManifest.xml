@@ -35,8 +35,8 @@
             android:label="@string/title_activity_get_cropped_photo" >
         </activity>
         <activity
-            android:name=".PhotosViewPager"
-            android:label="@string/title_activity_photos_view_pager_class" >
+            android:name=".TypePhotosViewPager"
+            android:label="@string/title_activity_type_photos_view_pager" >
         </activity>
         <activity
             android:name=".CollectionsPhotosViewPager"

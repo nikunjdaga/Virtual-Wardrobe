@@ -1,6 +1,7 @@
 package com.example.nikunj.virtualwardrobe;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,47 +9,45 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by root on 3/10/15.
+ * Created by nikunj on 3/10/15.
  */
 
 
 public class FavouritesFragmentAdapter extends BaseAdapter
 {
-    private List<Item> items = new ArrayList<Item>();
     private LayoutInflater inflater;
     Context myContext;
+    ArrayList<String> mAllFavouriteLocationUris =  new ArrayList<>();
 
-    public FavouritesFragmentAdapter(Context context)
+    public FavouritesFragmentAdapter(Context context,ArrayList<String> AllFavouriteLocationUris)
     {
         myContext = context;
         inflater = LayoutInflater.from(context);
-
-        items.add(new Item("Image 1", R.drawable.nature1));
-        items.add(new Item("Image 2", R.drawable.nature2));
-        items.add(new Item("Image 3", R.drawable.tree1));
-        items.add(new Item("Image 4", R.drawable.nature3));
-        items.add(new Item("Image 5", R.drawable.tree2));
+        mAllFavouriteLocationUris =  AllFavouriteLocationUris;
     }
 
     @Override
     public int getCount() {
-        return items.size();
+        return mAllFavouriteLocationUris.size();
     }
 
     @Override
     public Object getItem(int i)
     {
-        return items.get(i);
+        return null;
     }
 
     @Override
-    public long getItemId(int i)
+    public long getItemId(int position)
     {
-        return items.get(i).drawableId;
+        return position;
     }
 
     @Override
@@ -56,35 +55,23 @@ public class FavouritesFragmentAdapter extends BaseAdapter
     {
         View v = view;
         ImageView picture;
-        TextView name;
 
         if(v == null)
         {
             v = inflater.inflate(R.layout.favourite_gridview_item, viewGroup, false);
             v.setTag(R.id.picture, v.findViewById(R.id.picture));
-            v.setTag(R.id.text, v.findViewById(R.id.text));
         }
 
         picture = (ImageView)v.getTag(R.id.picture);
-        name = (TextView)v.getTag(R.id.text);
 
-        Item item = (Item)getItem(i);
 
-        picture.setImageResource(item.drawableId);
-        name.setText(item.name);
+        Glide.clear(picture);
+
+        Glide.with(myContext)
+                .load(new File(mAllFavouriteLocationUris.get(i)))
+                .into(picture);
 
         return v;
     }
 
-    private class Item
-    {
-        final String name;
-        final int drawableId;
-
-        Item(String name, int drawableId)
-        {
-            this.name = name;
-            this.drawableId = drawableId;
-        }
-    }
 }
