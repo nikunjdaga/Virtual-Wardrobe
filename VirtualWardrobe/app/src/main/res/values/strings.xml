@@ -9,4 +9,6 @@
     <string name="title_activity_get_cropped_photo">GetCroppedPhoto</string>
     <string name="title_activity_holly_view_pager">HollyViewPagerActivity</string>
     <string name="title_activity_photos_view_pager_class">PhotosViewPagerClass</string>
+    <string name="title_activity_collections_photos_view_pager">CollectionsPhotosViewPager</string>
+    <string name="title_activity_color_photos_view_pager">ColorPhotosViewPager</string>
 </resources>

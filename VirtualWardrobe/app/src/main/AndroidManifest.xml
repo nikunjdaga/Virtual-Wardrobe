@@ -38,6 +38,14 @@
             android:name=".PhotosViewPager"
             android:label="@string/title_activity_photos_view_pager_class" >
         </activity>
+        <activity
+            android:name=".CollectionsPhotosViewPager"
+            android:label="@string/title_activity_collections_photos_view_pager" >
+        </activity>
+        <activity
+            android:name=".ColorPhotosViewPager"
+            android:label="@string/title_activity_color_photos_view_pager" >
+        </activity>
     </application>
 
 </manifest>

@@ -35,16 +35,16 @@ public class ColorFragment extends Fragment
 
         GridView gridView = (GridView)gridview_layout.findViewById(R.id.colorGridview);
         gridView.setAdapter(new ColorFragmentAdapter(getContext()));
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               // Intent intent = new Intent(getActivity(), HollyViewPagerActivity.class);
-               // intent.putExtra(key, titleName);
-               // startActivity(intent);
-                Toast.makeText(getActivity(), "You Clicked at " + position, Toast.LENGTH_SHORT).show();
-
-            }
-        });
+//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//               // Intent intent = new Intent(getActivity(), HollyViewPagerActivity.class);
+//               // intent.putExtra(key, titleName);
+//               // startActivity(intent);
+//               // Toast.makeText(getActivity(), "You Clicked at " + position, Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
         return gridview_layout;
     }
 

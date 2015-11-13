@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.nikunj.virtualwardrobe.CollectionsPhotosViewPager">
+
+    <ImageView
+        android:id="@+id/photoViewPagerItem"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true" />
+
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_below="@id/photoViewPagerItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description" />
+
+    <TextView
+        android:id="@+id/descriptionOfClothes"
+        android:layout_below="@id/photoViewPagerItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/description"
+        android:layout_toEndOf="@id/description"/>
+
+
+    <TextView
+        android:id="@+id/isFavourite"
+        android:layout_below="@id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Is Favourite" />
+
+    <TextView
+        android:id="@+id/isFavInteger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descriptionOfClothes"
+        android:layout_toRightOf="@id/isFavourite"
+        android:layout_toEndOf="@id/isFavourite"/>
+
+    <TextView
+        android:id="@+id/createdAt"
+        android:layout_below="@id/isFavourite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Created At" />
+
+    <TextView
+        android:id="@+id/createdAtText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/isFavInteger"
+        android:layout_toRightOf="@id/createdAt"
+        android:layout_toEndOf="@id/createdAt"/>
+
+    <TextView
+        android:id="@+id/exactColorSelected"
+        android:layout_below="@id/createdAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Exact Color Selected" />
+
+    <TextView
+        android:id="@+id/exactColorSelectedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/createdAtText"
+        android:layout_toRightOf="@id/exactColorSelected"
+        android:layout_toEndOf="@id/exactColorSelected"/>
+
+    <TextView
+        android:id="@+id/typeName"
+        android:layout_below="@id/exactColorSelected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Type Name" />
+
+    <TextView
+        android:id="@+id/typeNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/exactColorSelectedText"
+        android:layout_toRightOf="@id/typeName"
+        android:layout_toEndOf="@id/typeName"/>
+
+    <TextView
+        android:id="@+id/collectionName"
+        android:layout_below="@id/typeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Collection Name" />
+
+    <TextView
+        android:id="@+id/collectionNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/typeNameText"
+        android:layout_toRightOf="@id/collectionName"
+        android:layout_toEndOf="@id/collectionName"/>
+
+    <TextView
+        android:id="@+id/colorMainBracketName"
+        android:layout_below="@id/collectionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Color Main Bracket" />
+
+    <TextView
+        android:id="@+id/colorMainBracketNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/collectionNameText"
+        android:layout_toRightOf="@id/colorMainBracketName"
+        android:layout_toEndOf="@id/colorMainBracketName"/>
+
+</RelativeLayout>

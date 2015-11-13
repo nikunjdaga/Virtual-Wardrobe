@@ -2,6 +2,7 @@ package com.example.nikunj.virtualwardrobe;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +24,9 @@ public class ColorFragmentAdapter extends BaseAdapter
 {
     private List<ColorMainList> items = new ArrayList<>();
     private LayoutInflater inflater;
-    Context myContext;
-    SavePhotoDBOpenHelper db;
+    private Context myContext;
+    private SavePhotoDBOpenHelper db;
+    Integer positionGridView;
 
     public ColorFragmentAdapter(Context context)
     {
@@ -38,6 +40,11 @@ public class ColorFragmentAdapter extends BaseAdapter
         db.close();
 
 
+    }
+
+    public ColorFragmentAdapter(Integer position){
+
+        positionGridView = position;
     }
 
     @Override
@@ -63,6 +70,7 @@ public class ColorFragmentAdapter extends BaseAdapter
         View v = view;
         ImageView picture;
         TextView name;
+        final Integer positionItemId = items.get(position).getColorMainListItemId();
 
         if(v == null)
         {
@@ -74,6 +82,20 @@ public class ColorFragmentAdapter extends BaseAdapter
 
         picture = (ImageView)v.getTag(R.id.picture);
         name = (TextView)v.getTag(R.id.text);
+
+        picture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(myContext, ColorPhotosViewPager.class);
+                i.putExtra("position_for_color_item",positionItemId);
+//                Log.e("position for item2",positionItemId +"");
+                myContext.startActivity(i);
+                Toast.makeText(myContext, "You Clicked at Db position " + positionItemId, Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
 
         ColorMainList item = (ColorMainList)getItem(position);
 

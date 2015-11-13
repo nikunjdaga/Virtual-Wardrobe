@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +24,8 @@ public class TypeFragmentAdapter extends BaseAdapter
 {
     private List<TypeList> items = new ArrayList<>();
     private LayoutInflater inflater;
-    Context myContext;
-    SavePhotoDBOpenHelper db;
+    private Context myContext;
+    private SavePhotoDBOpenHelper db;
     Integer positionGridView;
 
     public TypeFragmentAdapter(Context context)
@@ -34,10 +33,7 @@ public class TypeFragmentAdapter extends BaseAdapter
         myContext = context;
         inflater = LayoutInflater.from(context);
 
-
         db = SavePhotoDBOpenHelper.getInstance(myContext);
-
-
 
         items = db.getAllTypeListItem(myContext);
 
@@ -77,7 +73,7 @@ public class TypeFragmentAdapter extends BaseAdapter
         ImageView picture;
         TextView name;
         ImageView gridItemMenu;
-        final Integer positionItemId = items.get(position).getTypeListItemId();;
+        final Integer positionItemId = items.get(position).getTypeListItemId();
 
         if(v == null)
         {
@@ -97,8 +93,8 @@ public class TypeFragmentAdapter extends BaseAdapter
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(myContext, PhotosViewPager.class);
-                i.putExtra("position_for_item",positionItemId);
+                Intent i = new Intent(myContext, TypePhotosViewPager.class);
+                i.putExtra("position_for_type_item",positionItemId);
 //                Log.e("position for item2",positionItemId +"");
                 myContext.startActivity(i);
                 Toast.makeText(myContext, "You Clicked at Db position " + positionItemId, Toast.LENGTH_SHORT).show();

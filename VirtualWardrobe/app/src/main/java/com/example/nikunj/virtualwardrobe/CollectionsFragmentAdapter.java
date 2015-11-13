@@ -2,6 +2,7 @@ package com.example.nikunj.virtualwardrobe;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,35 +23,25 @@ public class CollectionsFragmentAdapter extends BaseAdapter
 {
     private List<CollectionsList> items = new ArrayList<>();
     private LayoutInflater inflater;
-    Context myContext;
-    SavePhotoDBOpenHelper db;
+    private Context myContext;
+    private SavePhotoDBOpenHelper db;
+    Integer positionGridView;
 
     public CollectionsFragmentAdapter(Context context)
     {
         myContext = context;
         inflater = LayoutInflater.from(context);
-//
-//        items.add(new CollectionsList("Image 1", R.drawable.nature1));
-//        items.add(new CollectionsList("Image 2", R.drawable.nature2));
-//        items.add(new CollectionsList("Image 3", R.drawable.tree1));
-//        items.add(new CollectionsList("Image 4", R.drawable.nature3));
-//        items.add(new CollectionsList("Image 5", R.drawable.tree2));
-        db = SavePhotoDBOpenHelper.getInstance(myContext);
-        //db.addCollectionListItem(myContext,new CollectionsList("Image 1", R.drawable.nature1));
-        //db.addCollectionListItem(myContext,new CollectionsList("Image 2",R.drawable.nature2));
-        //db.addCollectionListItem(myContext,new CollectionsList("Image 3",R.drawable.nature3));
-        //db.addCollectionListItem(myContext,new CollectionsList("Image 4",R.drawable.tree1));
-        //db.addCollectionListItem(myContext,new CollectionsList("Image 5",R.drawable.tree2));
-        //db.addCollectionListItem(myContext,new CollectionsList("Image 6", R.drawable.nature2));
 
+        db = SavePhotoDBOpenHelper.getInstance(myContext);
 
         items = db.getAllCollectionListItem(myContext);
 
-//        for (CollectionsList collectionlistsitems : items) {
-//            items.add(new CollectionsList(collectionlistsitems.getCollectionsName(),collectionlistsitems.getCollectionListItemDrawableId()));
-//
-//        }
         db.close();
+    }
+
+    public CollectionsFragmentAdapter(Integer position){
+
+        positionGridView = position;
     }
 
     @Override
@@ -77,6 +68,7 @@ public class CollectionsFragmentAdapter extends BaseAdapter
         ImageView picture;
         TextView name;
         ImageView gridItemMenu;
+        final Integer positionItemId = items.get(position).getCollectionListItemId();
 
         if(v == null)
         {
@@ -88,14 +80,17 @@ public class CollectionsFragmentAdapter extends BaseAdapter
 
         picture = (ImageView)v.getTag(R.id.picture);
         name = (TextView)v.getTag(R.id.text);
-        final Integer positionItemId = items.get(position).getCollectionListItemId();
+
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
+                Intent i = new Intent(myContext, CollectionsPhotosViewPager.class);
+                i.putExtra("position_for_collection_item",positionItemId);
+//                Log.e("position for item2",positionItemId +"");
+                myContext.startActivity(i);
                 Toast.makeText(myContext, "You Clicked at Db position " + positionItemId, Toast.LENGTH_SHORT).show();
-
 
             }
         });
@@ -117,14 +112,14 @@ public class CollectionsFragmentAdapter extends BaseAdapter
                             public void onClick(DialogInterface dialog,int id) {
                                 // if this button is clicked, close
                                 // current activity
-                                Toast.makeText(myContext, "Type Name to be edited ", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(myContext, "Collection Name to be edited ", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton("Delete",new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
                                 // if this button is clicked, just close
                                 // the dialog box and do nothing
-                                Toast.makeText(myContext,"Type will be deleted",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(myContext,"Collection will be deleted",Toast.LENGTH_SHORT).show();
                                 dialog.cancel();
                             }
                         });

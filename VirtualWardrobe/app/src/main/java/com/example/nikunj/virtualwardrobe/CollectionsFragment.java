@@ -71,7 +71,7 @@ public class CollectionsFragment extends Fragment
                             public void onClick(DialogInterface dialog, int id) {
                                 // if this button is clicked, close
                                 // current activity
-                                Toast.makeText(getActivity(), "Type Name to be edited", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Collections Name to be edited", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
@@ -79,7 +79,7 @@ public class CollectionsFragment extends Fragment
                                 // if this button is clicked, just close
                                 // the dialog box and do nothing
 
-                                Toast.makeText(getActivity(), "Type will be deleted", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Collections will be deleted", Toast.LENGTH_SHORT).show();
                                 dialog.cancel();
                             }
                         });
@@ -125,14 +125,14 @@ public class CollectionsFragment extends Fragment
                                 }
 //                       // dialog.dismiss();
 
-                                Toast.makeText(getActivity(), "Type Name to be edited", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Collections Name to be edited", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // if this button is clicked, just close
                                 // the dialog box and do nothing
-                                Toast.makeText(getActivity(), "Type will be deleted", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Collections will be deleted", Toast.LENGTH_SHORT).show();
                                 dialog.cancel();
                             }
                         });

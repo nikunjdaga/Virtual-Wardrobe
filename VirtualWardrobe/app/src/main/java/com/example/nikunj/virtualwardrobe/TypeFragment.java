@@ -34,7 +34,6 @@ public class TypeFragment extends Fragment
     private FloatingActionButton fabCameraPhotoButton;
     private FloatingActionButton fabGalleryPhotoButton;
     private FloatingActionButton fabAddTypeButton;
-    private boolean closeMenu;
     private FloatingActionMenu floatingActionMenu;
 
     private List<FloatingActionMenu> menus = new ArrayList<>();
@@ -47,7 +46,7 @@ public class TypeFragment extends Fragment
         View gridview_layout = inflater.inflate(R.layout.type_fragment_gridview, container, false);
 
         db = SavePhotoDBOpenHelper.getInstance(getActivity());
-        closeMenu = true;
+
 
         final GridView gridView = (GridView)gridview_layout.findViewById(R.id.typeGridview);
         gridView.setAdapter(new TypeFragmentAdapter(getContext()));
