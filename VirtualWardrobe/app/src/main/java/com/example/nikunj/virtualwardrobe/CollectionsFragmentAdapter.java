@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,18 +111,18 @@ public class CollectionsFragmentAdapter extends BaseAdapter
                 alertDialogBuilder
                         .setMessage("Edit Name or Delete Type")
                         .setCancelable(true)
-                        .setPositiveButton("Edit",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                        .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
                                 // if this button is clicked, close
                                 // current activity
                                 Toast.makeText(myContext, "Collection Name to be edited ", Toast.LENGTH_SHORT).show();
                             }
                         })
-                        .setNegativeButton("Delete",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                        .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
                                 // if this button is clicked, just close
                                 // the dialog box and do nothing
-                                Toast.makeText(myContext,"Collection will be deleted",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(myContext, "Collection will be deleted", Toast.LENGTH_SHORT).show();
                                 dialog.cancel();
                             }
                         });
@@ -136,7 +139,12 @@ public class CollectionsFragmentAdapter extends BaseAdapter
 
         CollectionsList item = (CollectionsList)getItem(position);
 
-        picture.setImageResource(item.getCollectionListItemDrawableId());
+        Glide.clear(picture);
+        Glide.with(myContext)
+                .load(item.getCollectionListItemDrawableId())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .into(picture);
         name.setText(item.getCollectionsName());
 
         return v;

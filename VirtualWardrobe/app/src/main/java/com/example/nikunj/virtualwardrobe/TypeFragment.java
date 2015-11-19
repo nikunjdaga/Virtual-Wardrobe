@@ -2,7 +2,6 @@ package com.example.nikunj.virtualwardrobe;
 
 
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,15 +9,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
         import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
-        import android.widget.ImageView;
-        import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -48,7 +45,7 @@ public class TypeFragment extends Fragment
         db = SavePhotoDBOpenHelper.getInstance(getActivity());
 
 
-        final GridView gridView = (GridView)gridview_layout.findViewById(R.id.typeGridview);
+        GridView gridView = (GridView)gridview_layout.findViewById(R.id.typeGridview);
         gridView.setAdapter(new TypeFragmentAdapter(getContext()));
 //        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
@@ -61,6 +58,41 @@ public class TypeFragment extends Fragment
 //
 //            }
 //        });
+
+        Log.e("Drawable",R.drawable.collection_casual_wear + "");
+        Log.e("Drawable",R.drawable.collection_ethnic_casual + "");
+        Log.e("Drawable",R.drawable.collection_ethnic_formal + "");
+        Log.e("Drawable",R.drawable.collection_excercise_wear + "");
+        Log.e("Drawable",R.drawable.collection_formal_wear + "");
+        Log.e("Drawable",R.drawable.collection_party_wear + "");
+        Log.e("Drawable",R.drawable.collection_summer + "");
+        Log.e("Drawable",R.drawable.collection_winter + "");
+        Log.e("Drawable",R.drawable.color_beige + "");
+        Log.e("Drawable",R.drawable.color_black + "");
+        Log.e("Drawable",R.drawable.color_brown + "");
+        Log.e("Drawable",R.drawable.color_dark_blue + "");
+        Log.e("Drawable",R.drawable.color_gray + "");
+        Log.e("Drawable",R.drawable.color_green + "");
+        Log.e("Drawable",R.drawable.color_light_blue + "");
+        Log.e("Drawable",R.drawable.color_maroon + "");
+        Log.e("Drawable",R.drawable.color_orange + "");
+        Log.e("Drawable",R.drawable.color_pink + "");
+        Log.e("Drawable",R.drawable.color_purple + "");
+        Log.e("Drawable",R.drawable.color_red + "");
+        Log.e("Drawable",R.drawable.color_white + "");
+        Log.e("Drawable",R.drawable.color_yellow + "");
+        Log.e("Drawable",R.drawable.type_accessories + "");
+        Log.e("Drawable",R.drawable.type_bags + "");
+        Log.e("Drawable",R.drawable.type_dress + "");
+        Log.e("Drawable",R.drawable.type_footwear + "");
+        Log.e("Drawable",R.drawable.type_grooming + "");
+        Log.e("Drawable",R.drawable.type_jackets + "");
+        Log.e("Drawable",R.drawable.type_kurtis + "");
+        Log.e("Drawable",R.drawable.type_lower + "");
+        Log.e("Drawable",R.drawable.type_salwaar_suit + "");
+        Log.e("Drawable",R.drawable.type_saree + "");
+        Log.e("Drawable",R.drawable.type_skirts + "");
+        Log.e("Drawable",R.drawable.type_tees + "");
 
 
         gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -76,18 +108,18 @@ public class TypeFragment extends Fragment
                 alertDialogBuilder
                         .setMessage("Edit Name or Delete Type")
                         .setCancelable(true)
-                        .setPositiveButton("Edit",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                        .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
                                 // if this button is clicked, close
                                 // current activity
-                                Toast.makeText(getActivity(),"Type Name to be edited",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Type Name to be edited", Toast.LENGTH_SHORT).show();
                             }
                         })
-                        .setNegativeButton("Delete",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                        .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
                                 // if this button is clicked, just close
                                 // the dialog box and do nothing
-                                Toast.makeText(getActivity(),"Type will be deleted",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Type will be deleted", Toast.LENGTH_SHORT).show();
                                 dialog.cancel();
                             }
                         });
@@ -114,7 +146,6 @@ public class TypeFragment extends Fragment
             @Override
             public void onClick(View v) {
                 if (floatingActionMenu.isOpened()) {
-                    Toast.makeText(getActivity(), floatingActionMenu.getMenuButtonLabelText(), Toast.LENGTH_SHORT).show();
                 }
 
                 floatingActionMenu.toggle(true);
@@ -147,7 +178,6 @@ public class TypeFragment extends Fragment
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String text = "";
 
             switch (v.getId()) {
                 case R.id.cameraPhotoButton:
@@ -184,21 +214,18 @@ public class TypeFragment extends Fragment
                                     final String typeItemName = setTypeName.getText().toString();
 
                                     if (typeItemName != "") {
-                                        db.addTypeListItem(getActivity(),new TypeList(typeItemName, R.drawable.nature1));
+                                        db.addTypeListItem(getActivity(), new TypeList(typeItemName, R.drawable.nature1));
+
 
                                     } else {
                                         dialog.dismiss();
                                     }
-//                       // dialog.dismiss();
-
-                                    Toast.makeText(getActivity(), "Type Name to be edited", Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     // if this button is clicked, just close
                                     // the dialog box and do nothing
-                                    Toast.makeText(getActivity(), "Type will be deleted", Toast.LENGTH_SHORT).show();
                                     dialog.cancel();
                                 }
                             });
@@ -213,7 +240,6 @@ public class TypeFragment extends Fragment
 
             }
             db.close();
-            Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
         }
     };
 

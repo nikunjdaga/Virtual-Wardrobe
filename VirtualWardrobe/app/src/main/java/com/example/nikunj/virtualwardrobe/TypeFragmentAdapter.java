@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,18 +120,18 @@ public class TypeFragmentAdapter extends BaseAdapter
                 alertDialogBuilder
                         .setMessage("Edit Name or Delete Type")
                         .setCancelable(true)
-                        .setPositiveButton("Edit",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                        .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
                                 // if this button is clicked, close
                                 // current activity
                                 Toast.makeText(myContext, "Type Name to be edited", Toast.LENGTH_SHORT).show();
                             }
                         })
-                        .setNegativeButton("Delete",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                        .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
                                 // if this button is clicked, just close
                                 // the dialog box and do nothing
-                                Toast.makeText(myContext,"Type will be deleted",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(myContext, "Type will be deleted", Toast.LENGTH_SHORT).show();
                                 dialog.cancel();
                             }
                         });
@@ -142,7 +145,13 @@ public class TypeFragmentAdapter extends BaseAdapter
         });
         TypeList item = (TypeList)getItem(position);
 
-        picture.setImageResource(item.getTypeListItemDrawableId());
+        Glide.clear(picture);
+        Glide.with(myContext)
+                .load(item.getTypeListItemDrawableId())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .into(picture);
+
         name.setText(item.getTypeName());
 
         return v;

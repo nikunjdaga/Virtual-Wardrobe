@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +91,7 @@ public class ColorFragmentAdapter extends BaseAdapter
             public void onClick(View v) {
 
                 Intent i = new Intent(myContext, ColorPhotosViewPager.class);
-                i.putExtra("position_for_color_item",positionItemId);
+                i.putExtra("position_for_color_item", positionItemId);
 //                Log.e("position for item2",positionItemId +"");
                 myContext.startActivity(i);
                 Toast.makeText(myContext, "You Clicked at Db position " + positionItemId, Toast.LENGTH_SHORT).show();
@@ -99,7 +102,12 @@ public class ColorFragmentAdapter extends BaseAdapter
 
         ColorMainList item = (ColorMainList)getItem(position);
 
-        picture.setImageResource(item.getColorMainListItemDrawableId());
+        Glide.clear(picture);
+        Glide.with(myContext)
+                .load(item.getColorMainListItemDrawableId())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .into(picture);
         name.setText(item.getColorMainName());
 
         return v;

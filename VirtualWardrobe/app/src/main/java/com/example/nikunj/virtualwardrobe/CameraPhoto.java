@@ -120,8 +120,6 @@ public class CameraPhoto extends AppCompatActivity {
             public void onClick(View v) {
 
                 croppedImage = cropImageView.getCroppedImage();
-//                ImageView croppedImageView = (ImageView) findViewById(R.id.croppedImageView);
-//                croppedImageView.setImageBitmap(croppedImage);
                 String mainFilePath = Environment.getExternalStorageDirectory().getPath() +"/VirtualWardrobe/" + new CreateDirectoryAndSavePhoto().getFileNameForFile();
 
                 new CreateDirectoryAndSavePhoto(croppedImage);

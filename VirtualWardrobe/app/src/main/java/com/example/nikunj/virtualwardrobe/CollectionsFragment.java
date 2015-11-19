@@ -123,16 +123,12 @@ public class CollectionsFragment extends Fragment
                                 } else {
                                     dialog.dismiss();
                                 }
-//                       // dialog.dismiss();
-
-                                Toast.makeText(getActivity(), "Collections Name to be edited", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // if this button is clicked, just close
                                 // the dialog box and do nothing
-                                Toast.makeText(getActivity(), "Collections will be deleted", Toast.LENGTH_SHORT).show();
                                 dialog.cancel();
                             }
                         });
